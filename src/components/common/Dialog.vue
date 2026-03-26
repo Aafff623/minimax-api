@@ -1,4 +1,4 @@
-<script setup lang="ts" setup>
+<script setup lang="ts">
 interface Props {
   modelValue: boolean
   title?: string

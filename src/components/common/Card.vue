@@ -1,4 +1,4 @@
-<script setup lang="ts" setup>
+<script setup lang="ts">
 // Card component - simple container with header, body, footer slots
 </script>
 

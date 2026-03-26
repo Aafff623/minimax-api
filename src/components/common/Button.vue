@@ -1,4 +1,4 @@
-<script setup lang="ts" setup>
+<script setup lang="ts">
 interface Props {
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'default'
   size?: 'small' | 'medium' | 'large'

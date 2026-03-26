@@ -1,4 +1,4 @@
-<script setup lang="ts" setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   duration?: number
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: 'info',
   duration: 3000,
 })
@@ -16,10 +16,10 @@ const visible = ref(false)
 
 onMounted(() => {
   visible.value = true
-  if (duration > 0) {
+  if (props.duration > 0) {
     setTimeout(() => {
       visible.value = false
-    }, duration)
+    }, props.duration)
   }
 })
 
