@@ -1,3 +1,4 @@
+import type { ComputedRef, Ref } from 'vue'
 import type { VoiceAsyncRequest } from '~/types'
 import { computed, ref } from 'vue'
 import { createVoiceTask, getAudioFile, getVoiceTaskStatus } from '~/api/voice'
@@ -10,14 +11,14 @@ const MAX_POLL_ATTEMPTS = 150
 
 export interface UseVoiceAsyncReturn {
   // State
-  isPolling: boolean
-  currentTaskId: string | null
-  error: string | null
-  audioUrl: string | null
+  isPolling: Ref<boolean>
+  currentTaskId: Ref<string | null>
+  error: Ref<string | null>
+  audioUrl: Ref<string | null>
 
   // Computed
-  isProcessing: computed<boolean>
-  progress: computed<number>
+  isProcessing: ComputedRef<boolean>
+  progress: ComputedRef<number>
 
   // Actions
   createAndPoll: (params: VoiceAsyncRequest) => Promise<string | null>

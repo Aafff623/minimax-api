@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { VoiceCloneStatusResponse } from '@/api/voiceClone'
+import { onMounted, ref } from 'vue'
 import { createVoiceClone, getCloneList, getCloneStatus } from '@/api/voiceClone'
 
 const audioFile = ref<File | null>(null)

@@ -14,6 +14,7 @@ export interface VoiceAsyncResponse {
   task_id: string
   status: 'pending' | 'processing' | 'success' | 'failed'
   file_id?: string
+  progress?: number
 }
 
 export interface VoiceStreamRequest {

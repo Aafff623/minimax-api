@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useVoiceStream } from '@/composables/useVoiceStream'
 
 const voiceStream = useVoiceStream()

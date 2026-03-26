@@ -1,4 +1,4 @@
-import type { ApiResponse, TaskStatus, VoiceAsyncRequest, VoiceAsyncResponse } from '~/types'
+import type { ApiResponse, VoiceAsyncRequest, VoiceAsyncResponse } from '~/types'
 
 // MiniMax API Base URL - should be configured via environment variable
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'

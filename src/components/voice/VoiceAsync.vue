@@ -125,7 +125,7 @@ async function handleSubmit() {
       <!-- Submit Button -->
       <div class="flex items-center gap-4">
         <Button
-          type="submit"
+          type="primary"
           :loading="isProcessing"
           :disabled="!text.trim() || isProcessing"
         >
