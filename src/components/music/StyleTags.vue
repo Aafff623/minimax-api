@@ -98,19 +98,26 @@ function clearAll() {
 </script>
 
 <template>
-  <div class="card">
-    <div class="flex items-center justify-between mb-5">
-      <div class="label flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 16v-4" />
-          <path d="M12 8h.01" />
-        </svg>
-        风格与心情
+  <div class="card border border-border-light/50 overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-5 border-b border-border-light/50 bg-gradient-to-r from-primary/5 to-transparent">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-text-primary">风格与心情</h3>
+          <p class="text-xs text-text-secondary">选择标签塑造音乐风格</p>
+        </div>
       </div>
+
       <button
         v-if="selectedTags.length > 0"
-        class="btn btn-secondary text-sm py-1.5"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 border-2 border-border-light bg-white hover:border-red-500/50 hover:bg-red-50 text-red-500 disabled:opacity-40 disabled:cursor-not-allowed"
         :disabled="disabled"
         @click="clearAll"
       >
@@ -122,17 +129,19 @@ function clearAll() {
       </button>
     </div>
 
-    <div class="space-y-5">
+    <div class="p-5 space-y-6">
       <!-- Music Style -->
-      <div>
-        <label class="label flex items-center gap-2 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18V5l12-2v13" />
-            <circle cx="6" cy="18" r="3" />
-            <circle cx="18" cy="16" r="3" />
-          </svg>
+      <div class="space-y-3">
+        <label class="flex items-center gap-2 text-sm font-semibold text-text-primary">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-100 to-pink-50 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-pink-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </div>
           音乐风格
-          <span class="text-xs text-text-muted">(最多5个)</span>
+          <span class="text-xs text-text-muted font-normal">(最多5个)</span>
         </label>
         <div class="flex flex-wrap gap-2">
           <button
@@ -140,11 +149,11 @@ function clearAll() {
             :key="tag.value"
             type="button"
             :disabled="disabled"
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border-2"
+            class="px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border-2"
             :class="[
               isSelected(tag.value)
-                ? `${tag.color} ring-2 ring-offset-1 ring-primary`
-                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5',
+                ? `${tag.color} ring-2 ring-offset-2 ring-primary shadow-sm transform scale-[1.02]`
+                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5 hover:shadow-sm',
               disabled && 'opacity-50 cursor-not-allowed',
             ]"
             @click="toggleTag(tag.value)"
@@ -155,14 +164,16 @@ function clearAll() {
       </div>
 
       <!-- Mood -->
-      <div>
-        <label class="label flex items-center gap-2 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-            <line x1="9" y1="9" x2="9.01" y2="9" />
-            <line x1="15" y1="9" x2="15.01" y2="9" />
-          </svg>
+      <div class="space-y-3">
+        <label class="flex items-center gap-2 text-sm font-semibold text-text-primary">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-100 to-orange-50 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+              <line x1="9" y1="9" x2="9.01" y2="9" />
+              <line x1="15" y1="9" x2="15.01" y2="9" />
+            </svg>
+          </div>
           心情
         </label>
         <div class="flex flex-wrap gap-2">
@@ -171,11 +182,11 @@ function clearAll() {
             :key="tag.value"
             type="button"
             :disabled="disabled"
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border-2"
+            class="px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border-2"
             :class="[
               isSelected(tag.value)
-                ? `${tag.color} ring-2 ring-offset-1 ring-primary`
-                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5',
+                ? `${tag.color} ring-2 ring-offset-2 ring-primary shadow-sm transform scale-[1.02]`
+                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5 hover:shadow-sm',
               disabled && 'opacity-50 cursor-not-allowed',
             ]"
             @click="toggleTag(tag.value)"
@@ -186,13 +197,15 @@ function clearAll() {
       </div>
 
       <!-- Instruments -->
-      <div>
-        <label class="label flex items-center gap-2 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18V5l12-2v13" />
-            <circle cx="6" cy="18" r="3" />
-            <circle cx="18" cy="16" r="3" />
-          </svg>
+      <div class="space-y-3">
+        <label class="flex items-center gap-2 text-sm font-semibold text-text-primary">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-100 to-indigo-50 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </div>
           乐器
         </label>
         <div class="flex flex-wrap gap-2">
@@ -201,11 +214,11 @@ function clearAll() {
             :key="tag.value"
             type="button"
             :disabled="disabled"
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border-2"
+            class="px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border-2"
             :class="[
               isSelected(tag.value)
-                ? `${tag.color} ring-2 ring-offset-1 ring-primary`
-                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5',
+                ? `${tag.color} ring-2 ring-offset-2 ring-primary shadow-sm transform scale-[1.02]`
+                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5 hover:shadow-sm',
               disabled && 'opacity-50 cursor-not-allowed',
             ]"
             @click="toggleTag(tag.value)"
@@ -216,19 +229,25 @@ function clearAll() {
       </div>
 
       <!-- Selected Summary -->
-      <div v-if="selectedTags.length > 0" class="pt-4 border-t border-border-light">
-        <label class="label flex items-center gap-2 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+      <div v-if="selectedTags.length > 0" class="pt-5 border-t border-border-light/50">
+        <label class="flex items-center gap-2 text-sm font-semibold text-text-primary mb-3">
+          <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
           已选择标签
+          <span class="text-xs text-text-muted font-normal">({{ selectedTags.length }}/5)</span>
         </label>
         <div class="flex flex-wrap gap-2">
           <span
             v-for="tag in selectedTags"
             :key="tag"
-            class="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-medium border border-primary/20"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-secondary/10 text-primary rounded-lg text-xs font-semibold border border-primary/20"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
             {{ tag }}
           </span>
         </div>
@@ -236,3 +255,18 @@ function clearAll() {
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Smooth hover animations */
+button {
+  transform: translateY(0);
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+</style>
