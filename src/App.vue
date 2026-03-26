@@ -17,7 +17,7 @@ const navItems = [
 
 const isActive = (path: string) => route.path === path
 
-const toggleMobileMenu = () => {
+function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 </script>
@@ -30,8 +30,10 @@ const toggleMobileMenu = () => {
         <div class="flex items-center justify-between">
           <!-- Logo -->
           <RouterLink to="/" class="flex items-center gap-2 group">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                 style="background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+              style="background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);"
+            >
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -49,7 +51,7 @@ const toggleMobileMenu = () => {
               :class="[
                 isActive(item.path)
                   ? 'text-white shadow-lg'
-                  : 'hover:text-white hover:scale-105'
+                  : 'hover:text-white hover:scale-105',
               ]"
               :style="isActive(item.path)
                 ? 'background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);'
@@ -60,7 +62,7 @@ const toggleMobileMenu = () => {
                 v-if="isActive(item.path)"
                 class="absolute inset-0 rounded-xl opacity-50 blur-md -z-10"
                 style="background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);"
-              ></span>
+              />
 
               <!-- Icons -->
               <!-- Home Icon -->
@@ -105,7 +107,7 @@ const toggleMobileMenu = () => {
                 v-if="isActive(item.path)"
                 class="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full"
                 style="background-color: #10B981;"
-              ></span>
+              />
             </RouterLink>
           </div>
 
@@ -130,8 +132,10 @@ const toggleMobileMenu = () => {
         <div class="flex items-center justify-between">
           <!-- Mobile Logo -->
           <RouterLink to="/" class="flex items-center gap-2">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center"
-                 style="background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);">
+            <div
+              class="w-9 h-9 rounded-lg flex items-center justify-center"
+              style="background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);"
+            >
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -141,9 +145,9 @@ const toggleMobileMenu = () => {
 
           <!-- Mobile Menu Button -->
           <button
-            @click="toggleMobileMenu"
             class="p-2 rounded-lg transition-colors"
             :style="{ color: isMobileMenuOpen ? '#6366F1' : '#1E1B4B' }"
+            @click="toggleMobileMenu"
           >
             <svg v-if="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -171,16 +175,16 @@ const toggleMobileMenu = () => {
               v-for="item in navItems"
               :key="item.path"
               :to="item.path"
-              @click="isMobileMenuOpen = false"
               class="flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300"
               :class="[
                 isActive(item.path)
                   ? 'text-white shadow-lg'
-                  : 'hover:scale-105'
+                  : 'hover:scale-105',
               ]"
               :style="isActive(item.path)
                 ? 'background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);'
                 : 'background-color: #F5F3FF; color: #1E1B4B;'"
+              @click="isMobileMenuOpen = false"
             >
               <!-- Mobile Icons (same as desktop) -->
               <svg v-if="item.icon === 'home'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

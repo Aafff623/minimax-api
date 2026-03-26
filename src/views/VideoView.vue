@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { createVideoTask, getVideoTaskStatus } from '~/api/video'
-import VideoGallery from '~/components/video/VideoGallery.vue'
 import TemplateSelector from '~/components/video/TemplateSelector.vue'
+import VideoGallery from '~/components/video/VideoGallery.vue'
 import VideoModeSelector from '~/components/video/VideoModeSelector.vue'
-import VideoPromptEditor from '~/components/video/VideoPromptEditor.vue'
 import VideoPlayer from '~/components/video/VideoPlayer.vue'
+import VideoPromptEditor from '~/components/video/VideoPromptEditor.vue'
 
 const selectedMode = ref<'text-to-video' | 'image-to-video' | 'subject-to-video' | 'subject-reference'>('text-to-video')
 const prompt = ref('')

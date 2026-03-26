@@ -15,7 +15,7 @@ const modules: Module[] = [
     description: 'Text-to-Speech 语音生成，支持 327 种音色',
     icon: 'voice',
     gradient: 'from-violet-500 to-purple-600',
-    route: '/voice'
+    route: '/voice',
   },
   {
     id: 'image',
@@ -23,7 +23,7 @@ const modules: Module[] = [
     description: 'AI 驱动的图片创作，image-01 模型',
     icon: 'image',
     gradient: 'from-pink-500 to-rose-600',
-    route: '/image'
+    route: '/image',
   },
   {
     id: 'video',
@@ -31,7 +31,7 @@ const modules: Module[] = [
     description: 'T2V/I2V/S2V 多模式视频创作',
     icon: 'video',
     gradient: 'from-orange-500 to-amber-600',
-    route: '/video'
+    route: '/video',
   },
   {
     id: 'music',
@@ -39,7 +39,7 @@ const modules: Module[] = [
     description: 'Music-2.5 智能音乐生成带歌词',
     icon: 'music',
     gradient: 'from-emerald-500 to-teal-600',
-    route: '/music'
+    route: '/music',
   },
   {
     id: 'chat',
@@ -47,7 +47,7 @@ const modules: Module[] = [
     description: 'M2.7 超拟人对话，30,000 次/5小时',
     icon: 'chat',
     gradient: 'from-blue-500 to-indigo-600',
-    route: '/chat'
+    route: '/chat',
   },
   {
     id: 'history',
@@ -55,11 +55,11 @@ const modules: Module[] = [
     description: '收藏夹与历史内容，永久保存',
     icon: 'history',
     gradient: 'from-slate-600 to-gray-700',
-    route: '/history'
-  }
+    route: '/history',
+  },
 ]
 
-const handleCardClick = (route: string) => {
+function handleCardClick(route: string) {
   window.location.href = route
 }
 </script>
@@ -103,44 +103,44 @@ const handleCardClick = (route: string) => {
           <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#6366F1]/10 to-[#818CF8]/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
             <!-- Voice Icon -->
             <svg v-if="mod.icon === 'voice'" class="w-7 h-7 text-[#6366F1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-              <line x1="12" x2="12" y1="19" y2="22"/>
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" x2="12" y1="19" y2="22" />
             </svg>
 
             <!-- Image Icon -->
             <svg v-else-if="mod.icon === 'image'" class="w-7 h-7 text-pink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-              <circle cx="9" cy="9" r="2"/>
-              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+              <circle cx="9" cy="9" r="2" />
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
             </svg>
 
             <!-- Video Icon -->
             <svg v-else-if="mod.icon === 'video'" class="w-7 h-7 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m22 8-6 4 6 4V8Z"/>
-              <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
+              <path d="m22 8-6 4 6 4V8Z" />
+              <rect width="14" height="12" x="2" y="6" rx="2" ry="2" />
             </svg>
 
             <!-- Music Icon -->
             <svg v-else-if="mod.icon === 'music'" class="w-7 h-7 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18V5l12-2v13"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="16" r="3"/>
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
             </svg>
 
             <!-- Chat Icon -->
             <svg v-else-if="mod.icon === 'chat'" class="w-7 h-7 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              <path d="M8 10h.01"/>
-              <path d="M12 10h.01"/>
-              <path d="M16 10h.01"/>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              <path d="M8 10h.01" />
+              <path d="M12 10h.01" />
+              <path d="M16 10h.01" />
             </svg>
 
             <!-- History Icon -->
             <svg v-else-if="mod.icon === 'history'" class="w-7 h-7 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-              <path d="M3 3v5h5"/>
-              <path d="M12 7v5l4 2"/>
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+              <path d="M12 7v5l4 2" />
             </svg>
           </div>
 
@@ -155,8 +155,8 @@ const handleCardClick = (route: string) => {
           <!-- Arrow indicator -->
           <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
             <svg class="w-5 h-5 text-[#6366F1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
             </svg>
           </div>
         </div>

@@ -69,12 +69,12 @@ watch(() => props.filter, (val) => {
 
     <!-- Search Input -->
     <div class="mb-5">
-      <div class="relative">
+      <div class="relative overflow-hidden">
         <input
           v-model="localSearch"
           type="text"
           placeholder="搜索历史记录..."
-          class="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-border-light bg-gray-50/50 text-text-primary placeholder-text-muted transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:shadow-lg focus:shadow-primary/5"
+          class="w-full max-w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-border-light bg-gray-50/50 text-text-primary placeholder-text-muted transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:shadow-lg focus:shadow-primary/5 box-border"
           @input="handleSearchInput"
           @keyup.enter="emit('search', localSearch)"
         >
@@ -97,12 +97,12 @@ watch(() => props.filter, (val) => {
     <!-- Type Filter -->
     <div>
       <span class="text-xs font-medium text-text-muted mb-3 block">内容类型</span>
-      <div class="grid grid-cols-2 gap-2">
+      <div class="grid grid-cols-2 gap-2 w-full overflow-hidden">
         <button
           v-for="option in typeOptions"
           :key="option.value"
           type="button"
-          class="px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2"
+          class="px-2 py-2 rounded-xl text-xs font-medium transition-all duration-200 flex items-center justify-center gap-1.5 box-border overflow-hidden text-ellipsis whitespace-nowrap"
           :class="localFilter === option.value
             ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/25'
             : 'bg-gray-50 text-text-secondary hover:bg-gray-100 hover:text-text-primary'"

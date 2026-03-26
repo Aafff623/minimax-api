@@ -77,13 +77,17 @@ async function handleSubmit() {
     <div class="flex items-center gap-3 mb-6">
       <div class="w-10 h-10 rounded-xl bg-cta/10 flex items-center justify-center">
         <svg class="w-5 h-5 text-cta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
-          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
         </svg>
       </div>
       <div>
-        <h2 class="section-title">异步语音合成</h2>
-        <p class="section-subtitle">提交任务后自动处理，完成后通知</p>
+        <h2 class="section-title">
+          异步语音合成
+        </h2>
+        <p class="section-subtitle">
+          提交任务后自动处理，完成后通知
+        </p>
       </div>
     </div>
 
@@ -96,7 +100,7 @@ async function handleSubmit() {
           rows="4"
           placeholder="请输入要转换为语音的文本..."
           :disabled="isProcessing"
-          class="input-base resize-none"
+          class="input-base resize-none w-full max-w-full box-border"
         />
       </div>
 
@@ -106,7 +110,7 @@ async function handleSubmit() {
         <select
           v-model="model"
           :disabled="isProcessing"
-          class="input-base appearance-none cursor-pointer bg-no-repeat bg-right pr-10"
+          class="input-base appearance-none cursor-pointer bg-no-repeat bg-right pr-10 w-full max-w-full box-border"
           style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-size: 20px; background-position: right 12px center;"
         >
           <option v-for="opt in voiceModels" :key="opt.value" :value="opt.value">
@@ -121,7 +125,7 @@ async function handleSubmit() {
         <select
           v-model="voiceId"
           :disabled="isProcessing"
-          class="input-base appearance-none cursor-pointer bg-no-repeat bg-right pr-10"
+          class="input-base appearance-none cursor-pointer bg-no-repeat bg-right pr-10 w-full max-w-full box-border"
           style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-size: 20px; background-position: right 12px center;"
         >
           <option v-for="opt in voiceOptions" :key="opt.value" :value="opt.value">
@@ -138,12 +142,12 @@ async function handleSubmit() {
           class="btn-cta px-6"
         >
           <svg v-if="isProcessing" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
           </svg>
           <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-            <line x1="12" x2="12" y1="19" y2="22"/>
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" x2="12" y1="19" y2="22" />
           </svg>
           {{ isProcessing ? '处理中...' : '生成音频' }}
         </button>
@@ -164,9 +168,9 @@ async function handleSubmit() {
     <div v-if="audioUrl" class="mt-6 p-5 rounded-xl bg-surface-elevated border border-border-light">
       <label class="label flex items-center gap-2">
         <svg class="w-4 h-4 text-cta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 18V5l12-2v13"/>
-          <circle cx="6" cy="18" r="3"/>
-          <circle cx="18" cy="16" r="3"/>
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
         </svg>
         生成的音频
       </label>

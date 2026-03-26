@@ -132,14 +132,18 @@ function getStatusTag(status: string) {
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
           <svg class="w-5 h-5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/>
-            <circle cx="18" cy="16" r="3"/>
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
           </svg>
         </div>
         <div>
-          <h2 class="section-title">音色克隆</h2>
-          <p class="section-subtitle">创建个性化的语音模型</p>
+          <h2 class="section-title">
+            音色克隆
+          </h2>
+          <p class="section-subtitle">
+            创建个性化的语音模型
+          </p>
         </div>
       </div>
     </div>
@@ -164,9 +168,9 @@ function getStatusTag(status: string) {
         <template v-if="!audioFile">
           <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" x2="12" y1="3" y2="15"/>
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" x2="12" y1="3" y2="15" />
             </svg>
           </div>
           <p class="text-text-primary font-medium mb-2">
@@ -179,9 +183,9 @@ function getStatusTag(status: string) {
         <template v-else>
           <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18V5l12-2v13"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="16" r="3"/>
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
             </svg>
           </div>
           <p class="font-semibold text-text-primary mb-1">
@@ -195,9 +199,9 @@ function getStatusTag(status: string) {
             @click.stop="audioFile = null"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 6h18"/>
-              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+              <path d="M3 6h18" />
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
             </svg>
             移除
           </button>
@@ -207,9 +211,9 @@ function getStatusTag(status: string) {
       <!-- Error -->
       <p v-if="error" class="mt-3 text-sm text-red-500 flex items-center gap-2">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" x2="12" y1="8" y2="12"/>
-          <line x1="12" x2="12.01" y1="16" y2="16"/>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" x2="12" y1="8" y2="12" />
+          <line x1="12" x2="12.01" y1="16" y2="16" />
         </svg>
         {{ error }}
       </p>
@@ -233,17 +237,17 @@ function getStatusTag(status: string) {
       <!-- Upload Button -->
       <button
         :disabled="!audioFile || isUploading"
-        class="mt-4 w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 bg-cta text-white hover:bg-cta/90 disabled:opacity-50 disabled:cursor-not-allowed shadow-button hover:shadow-button-hover flex items-center justify-center gap-2"
+        class="mt-4 w-full max-w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 bg-cta text-white hover:bg-cta/90 disabled:opacity-50 disabled:cursor-not-allowed shadow-button hover:shadow-button-hover flex items-center justify-center gap-2 box-border overflow-hidden"
         @click="handleUpload"
       >
         <svg v-if="isUploading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
         </svg>
         <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
         {{ isUploading ? '处理中...' : '开始克隆' }}
       </button>
@@ -253,10 +257,10 @@ function getStatusTag(status: string) {
     <div>
       <h3 class="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
         <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
         克隆音色列表
       </h3>
@@ -264,13 +268,17 @@ function getStatusTag(status: string) {
       <div v-if="cloneList.length === 0" class="text-center py-10 bg-surface-elevated rounded-xl border border-border-light">
         <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
           <svg class="w-8 h-8 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 16v-4"/>
-            <path d="M12 8h.01"/>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
           </svg>
         </div>
-        <p class="text-text-muted font-medium">暂无克隆音色</p>
-        <p class="text-sm text-text-muted mt-1">上传音频开始创建你的第一个克隆音色</p>
+        <p class="text-text-muted font-medium">
+          暂无克隆音色
+        </p>
+        <p class="text-sm text-text-muted mt-1">
+          上传音频开始创建你的第一个克隆音色
+        </p>
       </div>
 
       <div v-else class="space-y-3">
@@ -283,8 +291,8 @@ function getStatusTag(status: string) {
             <div class="flex items-center gap-3">
               <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
                 <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
               <span class="font-semibold text-text-primary">
@@ -308,7 +316,7 @@ function getStatusTag(status: string) {
               class="text-primary hover:text-primary/80 font-medium flex items-center gap-1 transition-colors duration-200"
             >
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3"/>
+                <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
               试听
             </a>

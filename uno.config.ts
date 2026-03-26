@@ -19,10 +19,10 @@ export default defineConfig({
   ],
   theme: {
     colors: {
-      primary: '#6366F1',
-      secondary: '#818CF8',
-      cta: '#10B981',
-      background: '#F5F3FF',
+      'primary': '#6366F1',
+      'secondary': '#818CF8',
+      'cta': '#10B981',
+      'background': '#F5F3FF',
       'text-primary': '#1E1B4B',
       'text-secondary': '#4B5563',
       'text-muted': '#9CA3AF',

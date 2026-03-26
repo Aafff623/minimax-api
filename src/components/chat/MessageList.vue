@@ -50,7 +50,9 @@ watch(() => props.streamingContent, scrollToBottom)
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
       </div>
-      <h3 class="text-lg font-semibold text-text-primary mb-2">开始和 AI 对话</h3>
+      <h3 class="text-lg font-semibold text-text-primary mb-2">
+        开始和 AI 对话
+      </h3>
       <p class="text-sm text-text-muted max-w-xs">
         使用 M2.7-highspeed 模型进行智能对话，体验超快响应速度
       </p>

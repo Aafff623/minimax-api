@@ -88,7 +88,9 @@ function handleStop() {
           <h2 class="text-lg font-bold text-text-primary flex items-center gap-2">
             AI 对话
           </h2>
-          <p class="text-xs text-text-muted">M2.7-highspeed</p>
+          <p class="text-xs text-text-muted">
+            M2.7-highspeed
+          </p>
         </div>
       </div>
       <div class="flex items-center gap-2">
