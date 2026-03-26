@@ -17,6 +17,12 @@ import { RouterLink, RouterView } from 'vue-router'
             >
               Home
             </RouterLink>
+            <RouterLink
+              to="/voice"
+              class="text-gray-600 hover:text-primary transition-colors"
+            >
+              Voice
+            </RouterLink>
           </div>
         </div>
       </nav>

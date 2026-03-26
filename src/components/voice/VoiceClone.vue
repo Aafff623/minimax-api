@@ -122,10 +122,6 @@ function getStatusTag(status: string) {
       return { text: status, class: 'bg-gray-100 text-gray-700' }
   }
 }
-
-function formatDate(timestamp: number) {
-  return new Date(timestamp).toLocaleString('zh-CN')
-}
 </script>
 
 <template>
@@ -141,11 +137,13 @@ function formatDate(timestamp: number) {
     <div class="mb-6">
       <label class="block text-sm font-medium text-gray-700 mb-2">上传音频</label>
       <div
-        class="border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200" :class="[
+        class="border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200"
+        :class="[
           audioFile ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/50',
         ]"
       >
         <input
+          id="audio-upload"
           type="file"
           accept=".mp3,.wav,.m4a,audio/*"
           class="hidden"
@@ -235,7 +233,8 @@ function formatDate(timestamp: number) {
               </span>
             </div>
             <span
-              class="px-2 py-0.5 rounded-full text-xs font-medium" :class="[
+              class="px-2 py-0.5 rounded-full text-xs font-medium"
+              :class="[
                 getStatusTag(clone.status).class,
               ]"
             >

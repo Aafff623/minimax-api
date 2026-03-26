@@ -29,8 +29,51 @@ export function useVoiceStream() {
   let audioQueue: ArrayBuffer[] = []
   let isPlaying = false
 
+  const processQueue = async () => {
+    if (audioQueue.length === 0) {
+      isPlaying = false
+      return
+    }
+
+    isPlaying = true
+    const chunk = audioQueue.shift()!
+
+    try {
+      const audioBuffer = await audioContext!.decodeAudioData(chunk.slice(0))
+      const source = audioContext!.createBufferSource()
+      source.buffer = audioBuffer
+      source.connect(audioContext!.destination)
+
+      source.onended = () => {
+        processQueue()
+      }
+
+      source.start()
+    }
+    catch (e) {
+      console.error('Failed to decode audio:', e)
+      processQueue()
+    }
+  }
+
+  const playAudioChunk = async (chunk: ArrayBuffer) => {
+    if (!audioContext) {
+      audioContext = new AudioContext()
+    }
+
+    audioQueue.push(chunk)
+
+    if (!isPlaying) {
+      await processQueue()
+    }
+  }
+
   const connect = (options: VoiceStreamOptions = {}) => {
-    const { model = 'speech-02-hd', voice_id = 'male-qn-qingse', onAudioChunk, onStatusChange, onError } = options
+    const {
+      onAudioChunk,
+      onStatusChange,
+      onError,
+    } = options
 
     if (ws.value) {
       ws.value.close()
@@ -56,7 +99,7 @@ export function useVoiceStream() {
       }
     }
 
-    websocket.onerror = (event) => {
+    websocket.onerror = () => {
       error.value = new Error('WebSocket error')
       status.value = 'error'
       onError?.(error.value)
@@ -87,45 +130,6 @@ export function useVoiceStream() {
 
     ws.value.send(JSON.stringify(message))
     return true
-  }
-
-  const playAudioChunk = async (chunk: ArrayBuffer) => {
-    if (!audioContext) {
-      audioContext = new AudioContext()
-    }
-
-    audioQueue.push(chunk)
-
-    if (!isPlaying) {
-      await processQueue()
-    }
-  }
-
-  const processQueue = async () => {
-    if (audioQueue.length === 0) {
-      isPlaying = false
-      return
-    }
-
-    isPlaying = true
-    const chunk = audioQueue.shift()!
-
-    try {
-      const audioBuffer = await audioContext!.decodeAudioData(chunk.slice(0))
-      const source = audioContext!.createBufferSource()
-      source.buffer = audioBuffer
-      source.connect(audioContext!.destination)
-
-      source.onended = () => {
-        processQueue()
-      }
-
-      source.start()
-    }
-    catch (e) {
-      console.error('Failed to decode audio:', e)
-      processQueue()
-    }
   }
 
   const stop = () => {
