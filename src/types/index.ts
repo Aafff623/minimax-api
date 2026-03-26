@@ -137,4 +137,5 @@ export interface HistoryItem {
   createdAt: number
   data: any
   favorite?: boolean
+  lastAccessedAt?: number
 }

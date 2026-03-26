@@ -21,6 +21,7 @@ export const useHistoryStore = defineStore('history', () => {
   const currentPage = ref(1)
   const totalCount = ref(0)
   const hasMore = ref(true)
+  const nextCursor = ref<string | undefined>(undefined)
 
   // Getters
   const filteredItems = computed(() => {
@@ -30,20 +31,20 @@ export const useHistoryStore = defineStore('history', () => {
   })
 
   // Actions
-  async function loadItems(type?: string, page: number = 1, append: boolean = false) {
+  async function loadItems(type?: string, cursor?: string, append: boolean = false) {
     isLoading.value = true
     try {
-      const newItems = await getHistoryItems(type, page)
+      const result = await getHistoryItems(type, cursor)
 
-      if (append) {
-        items.value.push(...newItems)
+      if (append && cursor) {
+        items.value.push(...result.items)
       }
       else {
-        items.value = newItems
+        items.value = result.items
       }
 
-      currentPage.value = page
-      hasMore.value = newItems.length >= 20
+      nextCursor.value = result.nextCursor
+      hasMore.value = !!result.nextCursor
 
       totalCount.value = await getHistoryCount(type)
     }
@@ -55,7 +56,7 @@ export const useHistoryStore = defineStore('history', () => {
   async function loadMore() {
     if (isLoading.value || !hasMore.value)
       return
-    await loadItems(filter.value || undefined, currentPage.value + 1, true)
+    await loadItems(filter.value || undefined, nextCursor.value, true)
   }
 
   async function search(query: string) {
@@ -78,7 +79,7 @@ export const useHistoryStore = defineStore('history', () => {
   async function setFilter(type: string) {
     filter.value = type
     searchQuery.value = ''
-    currentPage.value = 1
+    nextCursor.value = undefined
     await loadItems(type || undefined)
   }
 
@@ -123,7 +124,8 @@ export const useHistoryStore = defineStore('history', () => {
   }
 
   async function loadFavorites() {
-    favorites.value = await getFavorites()
+    const result = await getFavorites()
+    favorites.value = result.items
   }
 
   async function refresh() {

@@ -5,10 +5,10 @@ defineProps<{
   mode: VideoMode
 }>()
 
-const prompt = defineModel<string>({ default: '' })
-const subject = defineModel<string>({ default: '' })
-const subjectType = defineModel<string>({ default: 'human' })
-const referenceImage = defineModel<string>({ default: '' })
+const prompt = defineModel<string>('prompt', { default: '' })
+const subject = defineModel<string>('subject', { default: '' })
+const subjectType = defineModel<string>('subjectType', { default: 'human' })
+const referenceImage = defineModel<string>('referenceImage', { default: '' })
 
 const subjectTypes = [
   { value: 'human', label: '人物' },
