@@ -3,14 +3,14 @@
 </script>
 
 <template>
-  <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-    <div v-if="$slots.header" class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+  <div class="bg-surface rounded-2xl shadow-card overflow-hidden border border-border-light transition-all duration-200 hover:shadow-card-hover">
+    <div v-if="$slots.header" class="px-5 py-4 border-b border-border-light bg-surface-elevated">
       <slot name="header" />
     </div>
-    <div class="px-4 py-4">
+    <div class="p-5">
       <slot />
     </div>
-    <div v-if="$slots.footer" class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+    <div v-if="$slots.footer" class="px-5 py-4 border-t border-border-light bg-surface-elevated">
       <slot name="footer" />
     </div>
   </div>

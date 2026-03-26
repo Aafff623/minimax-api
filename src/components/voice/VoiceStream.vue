@@ -37,13 +37,13 @@ const statusText = computed(() => {
 const statusColor = computed(() => {
   switch (voiceStream.status.value) {
     case 'open':
-      return 'text-green-500'
+      return 'bg-cta'
     case 'error':
-      return 'text-red-500'
+      return 'bg-red-500'
     case 'connecting':
-      return 'text-yellow-500'
+      return 'bg-yellow-500'
     default:
-      return 'text-gray-400'
+      return 'bg-gray-400'
   }
 })
 
@@ -98,24 +98,35 @@ function handleClear() {
 </script>
 
 <template>
-  <div class="voice-stream bg-white rounded-xl shadow-sm p-6">
+  <div class="card-hover group">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-xl font-bold text-gray-800">
-        流式语音合成
-      </h2>
-      <div class="flex items-center gap-2">
-        <span class="i-icon-park-outline-circle mr-1" :class="[statusColor]" />
-        <span :class="statusColor">{{ statusText }}</span>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">流式语音合成</h2>
+          <p class="section-subtitle">实时转换，即时播放</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-elevated border border-border-light">
+        <span class="w-2 h-2 rounded-full transition-all duration-300" :class="statusColor" />
+        <span class="text-sm font-medium text-text-secondary">{{ statusText }}</span>
       </div>
     </div>
 
     <!-- Voice Selection -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2">音色选择</label>
+    <div class="mb-5">
+      <label class="label">音色选择</label>
       <select
         v-model="selectedVoice"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+        class="input-base appearance-none cursor-pointer bg-no-repeat bg-right pr-10"
+        style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-size: 20px; background-position: right 12px center;"
       >
         <option v-for="opt in voiceOptions" :key="opt.value" :value="opt.value">
           {{ opt.label }}
@@ -124,35 +135,49 @@ function handleClear() {
     </div>
 
     <!-- Text Input -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2">输入文本</label>
+    <div class="mb-5">
+      <label class="label">输入文本</label>
       <textarea
         v-model="text"
         rows="4"
         placeholder="请输入要转换的文本..."
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+        class="input-base resize-none"
       />
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex gap-3 mb-4">
+    <div class="flex gap-3 mb-5">
       <button
-        class="flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-200" :class="[
+        class="flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2" :class="[
           isConnected
-            ? 'bg-red-500 text-white hover:bg-red-600'
-            : 'bg-primary text-white hover:bg-primary/90',
+            ? 'bg-red-500 text-white hover:bg-red-600 shadow-button hover:shadow-button-hover'
+            : 'bg-primary text-white hover:bg-primary/90 shadow-button hover:shadow-button-hover',
         ]"
         @click="handleConnect"
       >
+        <svg v-if="isConnected" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" x2="6" y1="6" y2="18"/>
+          <line x1="6" x2="18" y1="6" y2="18"/>
+        </svg>
+        <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/>
+          <path d="M12 5v14"/>
+        </svg>
         {{ isConnected ? '断开连接' : '连接' }}
       </button>
 
       <button
         :disabled="!isConnected || !text.trim() || isSending"
-        class="flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-200 bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 bg-secondary text-white hover:bg-secondary/90 disabled:opacity-50 disabled:cursor-not-allowed shadow-button hover:shadow-button-hover flex items-center justify-center gap-2"
         @click="handleSend"
       >
-        <span v-if="isSending" class="i-icon-park-outline-loading-three-quarters mr-1 animate-spin" />
+        <svg v-if="isSending" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+        </svg>
+        <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m22 2-7 20-4-9-9-4Z"/>
+          <path d="M22 2 11 13"/>
+        </svg>
         {{ isSending ? '发送中...' : '发送' }}
       </button>
     </div>
@@ -161,33 +186,45 @@ function handleClear() {
     <div class="flex gap-3">
       <button
         :disabled="voiceStream.audioChunks.value.length === 0"
-        class="flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex-1 py-2.5 px-4 rounded-xl font-medium transition-all duration-200 bg-surface-elevated text-text-primary border border-border-light hover:border-primary/50 hover:bg-hover-overlay disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         @click="handleDownload"
       >
-        <span class="i-icon-park-outline-download mr-1" />
+        <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" x2="12" y1="15" y2="3"/>
+        </svg>
         下载音频
       </button>
 
       <button
         :disabled="voiceStream.audioChunks.value.length === 0"
-        class="flex-1 py-2 px-4 rounded-lg font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex-1 py-2.5 px-4 rounded-xl font-medium transition-all duration-200 bg-surface-elevated text-text-primary border border-border-light hover:border-primary/50 hover:bg-hover-overlay disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         @click="handleClear"
       >
-        <span class="i-icon-park-outline-delete mr-1" />
+        <svg class="w-4 h-4 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18"/>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+        </svg>
         清空
       </button>
     </div>
 
-    <!-- mpv Player Hint -->
-    <div class="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+    <!-- Info Card -->
+    <div class="mt-6 p-4 rounded-xl bg-primary/5 border border-primary/10">
       <div class="flex items-start gap-3">
-        <span class="i-icon-park-outline-info text-amber-500 text-lg mt-0.5" />
-        <div class="text-sm text-amber-800">
-          <p class="font-medium mb-1">
-            提示
-          </p>
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/>
+            <path d="M12 8h.01"/>
+          </svg>
+        </div>
+        <div class="text-sm text-text-secondary">
+          <p class="font-semibold text-text-primary mb-1">使用提示</p>
           <p>流式音频通过 Web Audio API 实时播放。如需更高质量的音频体验，可配合 mpv 播放器使用：</p>
-          <code class="mt-2 block bg-amber-100 px-2 py-1 rounded text-xs">
+          <code class="mt-2 block bg-surface px-3 py-2 rounded-lg text-xs font-mono text-text-primary border border-border-light">
             mpv --no-cache --no-terminal --loop=no https://api.minimaxi.com/...
           </code>
         </div>

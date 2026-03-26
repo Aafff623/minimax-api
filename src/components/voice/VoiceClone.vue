@@ -112,36 +112,47 @@ async function pollCloneStatus(taskId: string) {
 function getStatusTag(status: string) {
   switch (status) {
     case 'success':
-      return { text: '已完成', class: 'bg-green-100 text-green-700' }
+      return { text: '已完成', class: 'bg-cta/10 text-cta' }
     case 'processing':
-      return { text: '处理中', class: 'bg-blue-100 text-blue-700' }
+      return { text: '处理中', class: 'bg-primary/10 text-primary' }
     case 'pending':
       return { text: '等待中', class: 'bg-yellow-100 text-yellow-700' }
     case 'failed':
-      return { text: '失败', class: 'bg-red-100 text-red-700' }
+      return { text: '失败', class: 'bg-red-100 text-red-600' }
     default:
-      return { text: status, class: 'bg-gray-100 text-gray-700' }
+      return { text: status, class: 'bg-gray-100 text-gray-600' }
   }
 }
 </script>
 
 <template>
-  <div class="voice-clone bg-white rounded-xl shadow-sm p-6">
+  <div class="card-hover group">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-xl font-bold text-gray-800">
-        音色克隆
-      </h2>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+          <svg class="w-5 h-5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">音色克隆</h2>
+          <p class="section-subtitle">创建个性化的语音模型</p>
+        </div>
+      </div>
     </div>
 
     <!-- Upload Section -->
     <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 mb-2">上传音频</label>
+      <label class="label">上传音频</label>
       <div
-        class="border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200"
+        class="border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 cursor-pointer"
         :class="[
-          audioFile ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/50',
+          audioFile ? 'border-primary bg-primary/5' : 'border-border-light hover:border-primary/50 hover:bg-hover-overlay',
         ]"
+        @click="() => document.getElementById('audio-upload')?.click()"
       >
         <input
           id="audio-upload"
@@ -151,48 +162,69 @@ function getStatusTag(status: string) {
           @change="handleFileChange"
         >
         <template v-if="!audioFile">
-          <span class="i-icon-park-outline-cloud-upload text-5xl text-gray-400 mb-3 block mx-auto" />
-          <p class="text-gray-600 mb-2">
+          <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" x2="12" y1="3" y2="15"/>
+            </svg>
+          </div>
+          <p class="text-text-primary font-medium mb-2">
             点击或拖拽上传音频文件
           </p>
-          <p class="text-sm text-gray-400">
+          <p class="text-sm text-text-muted">
             支持 MP3、WAV、M4A 格式，最大 10MB
           </p>
         </template>
         <template v-else>
-          <span class="i-icon-park-outline-music text-4xl text-primary mb-2 block" />
-          <p class="font-medium text-gray-800">
+          <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"/>
+              <circle cx="6" cy="18" r="3"/>
+              <circle cx="18" cy="16" r="3"/>
+            </svg>
+          </div>
+          <p class="font-semibold text-text-primary mb-1">
             {{ audioFile.name }}
           </p>
-          <p class="text-sm text-gray-500">
+          <p class="text-sm text-text-secondary mb-3">
             {{ (audioFile.size / 1024 / 1024).toFixed(2) }} MB
           </p>
           <button
-            class="mt-3 text-sm text-red-500 hover:text-red-600"
-            @click="audioFile = null"
+            class="text-sm text-red-500 hover:text-red-600 font-medium transition-colors duration-200 flex items-center gap-1 mx-auto"
+            @click.stop="audioFile = null"
           >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18"/>
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+            </svg>
             移除
           </button>
         </template>
       </div>
 
       <!-- Error -->
-      <p v-if="error" class="mt-2 text-sm text-red-500 flex items-center gap-1">
-        <span class="i-icon-park-outline-warning" />
+      <p v-if="error" class="mt-3 text-sm text-red-500 flex items-center gap-2">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" x2="12" y1="8" y2="12"/>
+          <line x1="12" x2="12.01" y1="16" y2="16"/>
+        </svg>
         {{ error }}
       </p>
 
       <!-- Upload Progress -->
       <div v-if="isUploading" class="mt-4">
-        <div class="flex items-center justify-between mb-1">
-          <span class="text-sm text-gray-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-medium text-text-secondary">
             {{ isPolling ? '克隆处理中...' : '上传中...' }}
           </span>
-          <span class="text-sm text-gray-600">{{ uploadProgress }}%</span>
+          <span class="text-sm font-semibold text-primary">{{ uploadProgress }}%</span>
         </div>
-        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-2.5 bg-surface-elevated rounded-full overflow-hidden border border-border-light">
           <div
-            class="h-full bg-primary transition-all duration-300 rounded-full"
+            class="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-300 rounded-full"
             :style="{ width: `${uploadProgress}%` }"
           />
         </div>
@@ -201,57 +233,83 @@ function getStatusTag(status: string) {
       <!-- Upload Button -->
       <button
         :disabled="!audioFile || isUploading"
-        class="mt-4 w-full py-2.5 px-4 rounded-lg font-medium transition-all duration-200 bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="mt-4 w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 bg-cta text-white hover:bg-cta/90 disabled:opacity-50 disabled:cursor-not-allowed shadow-button hover:shadow-button-hover flex items-center justify-center gap-2"
         @click="handleUpload"
       >
-        <span v-if="isUploading" class="i-icon-park-outline-loading-three-quarters mr-1 animate-spin" />
+        <svg v-if="isUploading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+        </svg>
+        <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
         {{ isUploading ? '处理中...' : '开始克隆' }}
       </button>
     </div>
 
     <!-- Clone List -->
     <div>
-      <h3 class="text-lg font-bold text-gray-800 mb-4">
+      <h3 class="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
         克隆音色列表
       </h3>
 
-      <div v-if="cloneList.length === 0" class="text-center py-8 text-gray-400">
-        <span class="i-icon-park-outline-infomation text-4xl mb-2 block mx-auto" />
-        <p>暂无克隆音色</p>
+      <div v-if="cloneList.length === 0" class="text-center py-10 bg-surface-elevated rounded-xl border border-border-light">
+        <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/>
+            <path d="M12 8h.01"/>
+          </svg>
+        </div>
+        <p class="text-text-muted font-medium">暂无克隆音色</p>
+        <p class="text-sm text-text-muted mt-1">上传音频开始创建你的第一个克隆音色</p>
       </div>
 
       <div v-else class="space-y-3">
         <div
           v-for="clone in cloneList"
           :key="clone.task_id"
-          class="p-4 border border-gray-200 rounded-lg hover:border-primary/30 transition-colors"
+          class="p-4 rounded-xl border border-border-light bg-surface-elevated hover:border-primary/30 transition-all duration-200 hover:shadow-card"
         >
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="i-icon-park-outline-person text-gray-400" />
-              <span class="font-medium text-gray-800">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <span class="font-semibold text-text-primary">
                 {{ clone.clone_id || clone.task_id.slice(0, 8) }}
               </span>
             </div>
             <span
-              class="px-2 py-0.5 rounded-full text-xs font-medium"
-              :class="[
-                getStatusTag(clone.status).class,
-              ]"
+              class="px-3 py-1 rounded-full text-xs font-semibold"
+              :class="getStatusTag(clone.status).class"
             >
               {{ getStatusTag(clone.status).text }}
             </span>
           </div>
 
-          <div class="flex items-center justify-between text-sm text-gray-500">
-            <span>Task ID: {{ clone.task_id }}</span>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-text-muted font-mono text-xs">Task ID: {{ clone.task_id.slice(0, 12) }}...</span>
             <a
               v-if="clone.status === 'success' && clone.preview_url"
               :href="clone.preview_url"
               target="_blank"
-              class="text-primary hover:underline flex items-center gap-1"
+              class="text-primary hover:text-primary/80 font-medium flex items-center gap-1 transition-colors duration-200"
             >
-              <span class="i-icon-park-outline-play" />
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
               试听
             </a>
           </div>
