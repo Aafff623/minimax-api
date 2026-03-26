@@ -71,8 +71,9 @@ export interface VideoRequest {
 
 export interface VideoResponse {
   task_id: string
-  status: string
+  status: 'pending' | 'processing' | 'success' | 'failed'
   video_url?: string
+  progress?: number
 }
 
 // ============ Music ============
