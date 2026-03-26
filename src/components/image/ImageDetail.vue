@@ -45,35 +45,46 @@ function handleDelete() {
 </script>
 
 <template>
-  <Dialog v-model="props.modelValue" title="Image Detail">
+  <Dialog v-model="props.modelValue" title="图片详情">
     <div class="image-detail">
       <!-- Image Preview -->
-      <div class="image-container mb-4">
+      <div class="image-container mb-6 rounded-xl overflow-hidden bg-gray-100">
         <img
           :src="imageUrl"
           alt="Generated image"
-          class="w-full h-auto rounded-lg"
+          class="w-full h-auto"
         >
       </div>
 
       <!-- Actions -->
-      <div class="actions flex gap-3">
+      <div class="flex gap-3">
         <button
-          class="btn btn-primary flex-1"
+          class="btn btn-primary flex-1 py-3"
           :disabled="isLoading"
           @click="downloadImage"
         >
-          <span v-if="isLoading" class="i-icon-park-outline-loading text-lg animate-spin" />
-          <span v-else class="i-icon-park-outline-download text-lg" />
-          <span class="ml-2">Download</span>
+          <svg v-if="!isLoading" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+          </svg>
+          <span class="ml-2">下载图片</span>
         </button>
 
         <button
-          class="btn btn-error flex-1"
+          class="btn btn-danger flex-1 py-3"
           @click="handleDelete"
         >
-          <span class="i-icon-park-outline-delete text-lg" />
-          <span class="ml-2">Delete</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            <line x1="10" y1="11" x2="10" y2="17" />
+            <line x1="14" y1="11" x2="14" y2="17" />
+          </svg>
+          <span class="ml-2">删除</span>
         </button>
       </div>
     </div>
@@ -86,6 +97,10 @@ function handleDelete() {
 }
 
 .image-container {
-  @apply bg-gray-100 rounded-lg overflow-hidden;
+  @apply transition-all duration-300;
+}
+
+.image-container:hover {
+  @apply shadow-card-hover;
 }
 </style>

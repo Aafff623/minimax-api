@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import Button from '~/components/common/Button.vue'
-import Card from '~/components/common/Card.vue'
 
 export interface StyleTag {
   label: string
@@ -20,45 +18,45 @@ const emit = defineEmits<{
 
 // Preset style tags
 const styleOptions: StyleTag[] = [
-  { label: 'Pop', value: 'pop', color: 'bg-pink-100 text-pink-700' },
-  { label: 'Rock', value: 'rock', color: 'bg-red-100 text-red-700' },
-  { label: 'Jazz', value: 'jazz', color: 'bg-amber-100 text-amber-700' },
-  { label: 'Electronic', value: 'electronic', color: 'bg-purple-100 text-purple-700' },
-  { label: 'Classical', value: 'classical', color: 'bg-yellow-100 text-yellow-700' },
-  { label: 'R&B', value: 'rnb', color: 'bg-blue-100 text-blue-700' },
-  { label: 'Hip-Hop', value: 'hiphop', color: 'bg-orange-100 text-orange-700' },
-  { label: 'Country', value: 'country', color: 'bg-green-100 text-green-700' },
-  { label: 'Folk', value: 'folk', color: 'bg-teal-100 text-teal-700' },
-  { label: 'Indie', value: 'indie', color: 'bg-indigo-100 text-indigo-700' },
-  { label: 'Metal', value: 'metal', color: 'bg-gray-200 text-gray-800' },
-  { label: 'Soul', value: 'soul', color: 'bg-rose-100 text-rose-700' },
-  { label: 'Blues', value: 'blues', color: 'bg-sky-100 text-sky-700' },
-  { label: 'Reggae', value: 'reggae', color: 'bg-lime-100 text-lime-700' },
-  { label: 'Funk', value: 'funk', color: 'bg-fuchsia-100 text-fuchsia-700' },
-  { label: 'Ambient', value: 'ambient', color: 'bg-cyan-100 text-cyan-700' },
+  { label: '流行', value: 'pop', color: 'bg-pink-100 text-pink-700 border-pink-200' },
+  { label: '摇滚', value: 'rock', color: 'bg-red-100 text-red-700 border-red-200' },
+  { label: '爵士', value: 'jazz', color: 'bg-amber-100 text-amber-700 border-amber-200' },
+  { label: '电子', value: 'electronic', color: 'bg-purple-100 text-purple-700 border-purple-200' },
+  { label: '古典', value: 'classical', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  { label: 'R&B', value: 'rnb', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { label: '嘻哈', value: 'hiphop', color: 'bg-orange-100 text-orange-700 border-orange-200' },
+  { label: '乡村', value: 'country', color: 'bg-green-100 text-green-700 border-green-200' },
+  { label: '民谣', value: 'folk', color: 'bg-teal-100 text-teal-700 border-teal-200' },
+  { label: '独立', value: 'indie', color: 'bg-indigo-100 text-indigo-700 border-indigo-200' },
+  { label: '金属', value: 'metal', color: 'bg-gray-100 text-gray-700 border-gray-200' },
+  { label: '灵魂', value: 'soul', color: 'bg-rose-100 text-rose-700 border-rose-200' },
+  { label: '蓝调', value: 'blues', color: 'bg-sky-100 text-sky-700 border-sky-200' },
+  { label: '雷鬼', value: 'reggae', color: 'bg-lime-100 text-lime-700 border-lime-200' },
+  { label: '放克', value: 'funk', color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200' },
+  { label: '氛围', value: 'ambient', color: 'bg-cyan-100 text-cyan-700 border-cyan-200' },
 ]
 
 // Mood tags
 const moodOptions: StyleTag[] = [
-  { label: 'Happy', value: 'happy', color: 'bg-yellow-100 text-yellow-700' },
-  { label: 'Sad', value: 'sad', color: 'bg-blue-100 text-blue-700' },
-  { label: 'Energetic', value: 'energetic', color: 'bg-red-100 text-red-700' },
-  { label: 'Calm', value: 'calm', color: 'bg-green-100 text-green-700' },
-  { label: 'Romantic', value: 'romantic', color: 'bg-pink-100 text-pink-700' },
-  { label: 'Dark', value: 'dark', color: 'bg-gray-200 text-gray-800' },
-  { label: 'Uplifting', value: 'uplifting', color: 'bg-orange-100 text-orange-700' },
-  { label: 'Nostalgic', value: 'nostalgic', color: 'bg-purple-100 text-purple-700' },
+  { label: '快乐', value: 'happy', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  { label: '悲伤', value: 'sad', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { label: '活力', value: 'energetic', color: 'bg-red-100 text-red-700 border-red-200' },
+  { label: '平静', value: 'calm', color: 'bg-green-100 text-green-700 border-green-200' },
+  { label: '浪漫', value: 'romantic', color: 'bg-pink-100 text-pink-700 border-pink-200' },
+  { label: '黑暗', value: 'dark', color: 'bg-gray-100 text-gray-700 border-gray-200' },
+  { label: '振奋', value: 'uplifting', color: 'bg-orange-100 text-orange-700 border-orange-200' },
+  { label: '怀旧', value: 'nostalgic', color: 'bg-purple-100 text-purple-700 border-purple-200' },
 ]
 
 // Instrument tags
 const instrumentOptions: StyleTag[] = [
-  { label: 'Piano', value: 'piano', color: 'bg-gray-100 text-gray-700' },
-  { label: 'Guitar', value: 'guitar', color: 'bg-amber-100 text-amber-700' },
-  { label: 'Drums', value: 'drums', color: 'bg-red-100 text-red-700' },
-  { label: 'Strings', value: 'strings', color: 'bg-yellow-100 text-yellow-700' },
-  { label: 'Synth', value: 'synth', color: 'bg-purple-100 text-purple-700' },
-  { label: 'Bass', value: 'bass', color: 'bg-blue-100 text-blue-700' },
-  { label: 'Orchestra', value: 'orchestra', color: 'bg-emerald-100 text-emerald-700' },
+  { label: '钢琴', value: 'piano', color: 'bg-gray-100 text-gray-700 border-gray-200' },
+  { label: '吉他', value: 'guitar', color: 'bg-amber-100 text-amber-700 border-amber-200' },
+  { label: '鼓', value: 'drums', color: 'bg-red-100 text-red-700 border-red-200' },
+  { label: '弦乐', value: 'strings', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  { label: '合成器', value: 'synth', color: 'bg-purple-100 text-purple-700 border-purple-200' },
+  { label: '贝斯', value: 'bass', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { label: '管弦乐', value: 'orchestra', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
 ]
 
 // Selected tags (from props)
@@ -100,30 +98,41 @@ function clearAll() {
 </script>
 
 <template>
-  <Card>
-    <template #header>
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-gray-800">
-          Style & Mood
-        </h2>
-        <Button
-          v-if="selectedTags.length > 0"
-          size="small"
-          variant="secondary"
-          :disabled="disabled"
-          @click="clearAll"
-        >
-          Clear All
-        </Button>
+  <div class="card">
+    <div class="flex items-center justify-between mb-5">
+      <div class="label flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 16v-4" />
+          <path d="M12 8h.01" />
+        </svg>
+        风格与心情
       </div>
-    </template>
+      <button
+        v-if="selectedTags.length > 0"
+        class="btn btn-secondary text-sm py-1.5"
+        :disabled="disabled"
+        @click="clearAll"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+        清空
+      </button>
+    </div>
 
     <div class="space-y-5">
       <!-- Music Style -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Music Style
-          <span class="text-gray-400 text-xs ml-1">(max 5)</span>
+        <label class="label flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
+          </svg>
+          音乐风格
+          <span class="text-xs text-text-muted">(最多5个)</span>
         </label>
         <div class="flex flex-wrap gap-2">
           <button
@@ -131,11 +140,11 @@ function clearAll() {
             :key="tag.value"
             type="button"
             :disabled="disabled"
-            class="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
+            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border-2"
             :class="[
               isSelected(tag.value)
-                ? `${tag.color} ring-2 ring-offset-1 ring-gray-300`
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+                ? `${tag.color} ring-2 ring-offset-1 ring-primary`
+                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5',
               disabled && 'opacity-50 cursor-not-allowed',
             ]"
             @click="toggleTag(tag.value)"
@@ -147,8 +156,14 @@ function clearAll() {
 
       <!-- Mood -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Mood
+        <label class="label flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+            <line x1="9" y1="9" x2="9.01" y2="9" />
+            <line x1="15" y1="9" x2="15.01" y2="9" />
+          </svg>
+          心情
         </label>
         <div class="flex flex-wrap gap-2">
           <button
@@ -156,11 +171,11 @@ function clearAll() {
             :key="tag.value"
             type="button"
             :disabled="disabled"
-            class="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
+            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border-2"
             :class="[
               isSelected(tag.value)
-                ? `${tag.color} ring-2 ring-offset-1 ring-gray-300`
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+                ? `${tag.color} ring-2 ring-offset-1 ring-primary`
+                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5',
               disabled && 'opacity-50 cursor-not-allowed',
             ]"
             @click="toggleTag(tag.value)"
@@ -172,8 +187,13 @@ function clearAll() {
 
       <!-- Instruments -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Instruments
+        <label class="label flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
+          </svg>
+          乐器
         </label>
         <div class="flex flex-wrap gap-2">
           <button
@@ -181,11 +201,11 @@ function clearAll() {
             :key="tag.value"
             type="button"
             :disabled="disabled"
-            class="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
+            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border-2"
             :class="[
               isSelected(tag.value)
-                ? `${tag.color} ring-2 ring-offset-1 ring-gray-300`
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+                ? `${tag.color} ring-2 ring-offset-1 ring-primary`
+                : 'bg-white text-text-secondary border-border-light hover:border-primary/50 hover:bg-primary/5',
               disabled && 'opacity-50 cursor-not-allowed',
             ]"
             @click="toggleTag(tag.value)"
@@ -196,20 +216,23 @@ function clearAll() {
       </div>
 
       <!-- Selected Summary -->
-      <div v-if="selectedTags.length > 0" class="pt-3 border-t border-gray-200">
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Selected Tags
+      <div v-if="selectedTags.length > 0" class="pt-4 border-t border-border-light">
+        <label class="label flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          已选择标签
         </label>
         <div class="flex flex-wrap gap-2">
           <span
             v-for="tag in selectedTags"
             :key="tag"
-            class="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs font-medium"
+            class="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-medium border border-primary/20"
           >
             {{ tag }}
           </span>
         </div>
       </div>
     </div>
-  </Card>
+  </div>
 </template>

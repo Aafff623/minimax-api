@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref } from 'vue'
-import Button from '~/components/common/Button.vue'
-import Card from '~/components/common/Card.vue'
 
 const props = defineProps<{
   src?: string
@@ -152,17 +150,20 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Card>
-    <template #header>
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-gray-800">
-          {{ title || 'Music Player' }}
-        </h2>
-        <span v-if="src" class="text-sm text-gray-500">
-          {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
-        </span>
-      </div>
-    </template>
+  <div class="card">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-bold text-text-primary flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
+        </svg>
+        {{ title || '音乐播放器' }}
+      </h2>
+      <span v-if="src" class="text-sm text-text-muted font-mono">
+        {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+      </span>
+    </div>
 
     <!-- Hidden Audio Element -->
     <audio
@@ -174,26 +175,26 @@ onUnmounted(() => {
       @ended="onEnded"
     />
 
-    <div class="space-y-4">
+    <div class="space-y-6">
       <!-- Lyrics Display -->
       <div
         v-if="parsedLyrics.length > 0"
-        class="bg-gray-50 rounded-lg p-4 max-h-64 overflow-y-auto"
+        class="rounded-xl p-5 max-h-64 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 border border-border-light"
       >
         <div class="space-y-2">
           <div
             v-for="(lyric, index) in parsedLyrics"
             :key="index"
-            class="text-sm py-1 transition-all duration-300"
+            class="text-sm py-2 px-3 rounded-lg transition-all duration-300"
             :class="[
               index === currentLyricIndex
-                ? 'text-primary font-semibold scale-105 transform'
+                ? 'text-primary font-bold scale-105 transform bg-primary/10 shadow-sm'
                 : index < currentLyricIndex
-                  ? 'text-gray-400'
-                  : 'text-gray-600',
+                  ? 'text-text-muted'
+                  : 'text-text-secondary',
             ]"
           >
-            {{ lyric.text || '(instrumental)' }}
+            {{ lyric.text || '（纯音乐）' }}
           </div>
         </div>
       </div>
@@ -201,13 +202,13 @@ onUnmounted(() => {
       <!-- No Lyrics Message -->
       <div
         v-else-if="lyrics"
-        class="bg-gray-50 rounded-lg p-4 text-center text-gray-500 text-sm"
+        class="rounded-xl p-6 text-center text-text-muted text-sm bg-gray-50 border border-border-light"
       >
-        No timestamped lyrics available
+        暂无带时间戳的歌词
       </div>
 
       <!-- Controls -->
-      <div v-if="src" class="space-y-4">
+      <div v-if="src" class="space-y-5">
         <!-- Progress Bar -->
         <div class="space-y-2">
           <input
@@ -223,68 +224,79 @@ onUnmounted(() => {
         <!-- Playback Controls -->
         <div class="flex items-center justify-center gap-4">
           <!-- Skip Back -->
-          <Button
-            variant="ghost"
-            size="small"
+          <button
+            class="btn btn-secondary w-12 h-12 p-0 flex items-center justify-center rounded-full"
             :disabled="!src"
             @click="skip(-10)"
           >
-            <span class="text-lg">-10s</span>
-          </Button>
+            <span class="text-sm font-medium">-10s</span>
+          </button>
 
           <!-- Play/Pause -->
-          <Button
-            type="primary"
-            size="medium"
+          <button
+            class="btn btn-primary w-16 h-16 p-0 flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all"
             :disabled="!src"
             @click="togglePlay"
           >
-            {{ isPlaying ? 'Pause' : 'Play' }}
-          </Button>
+            <svg v-if="!isPlaying" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16" />
+              <rect x="14" y="4" width="4" height="16" />
+            </svg>
+          </button>
 
           <!-- Skip Forward -->
-          <Button
-            variant="ghost"
-            size="small"
+          <button
+            class="btn btn-secondary w-12 h-12 p-0 flex items-center justify-center rounded-full"
             :disabled="!src"
             @click="skip(10)"
           >
-            <span class="text-lg">+10s</span>
-          </Button>
+            <span class="text-sm font-medium">+10s</span>
+          </button>
         </div>
 
         <!-- Volume & Speed -->
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center justify-between gap-4 pt-4 border-t border-border-light">
           <!-- Volume -->
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-600">
-              {{ volume === 0 ? 'Muted' : `${Math.round(volume * 100)}%` }}
-            </span>
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path v-if="volume > 0.5" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path v-else-if="volume > 0" d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <line v-if="volume === 0" x1="23" y1="9" x2="17" y2="15" />
+              <line v-if="volume === 0" x1="17" y1="9" x2="23" y2="15" />
+            </svg>
             <input
               type="range"
               :value="volume"
               min="0"
               max="1"
               step="0.1"
-              class="w-20 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+              class="w-24 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
               @input="handleVolumeChange"
             >
           </div>
 
           <!-- Playback Speed -->
           <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-600">Speed:</span>
+            <span class="text-sm text-text-secondary">速度:</span>
             <div class="flex gap-1">
-              <Button
+              <button
                 v-for="rate in [0.5, 1, 1.5, 2]"
                 :key="rate"
-                size="small"
-                :variant="playbackRate === rate ? 'primary' : 'secondary'"
+                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200"
+                :class="[
+                  playbackRate === rate
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'bg-gray-100 text-text-secondary hover:bg-gray-200',
+                ]"
                 :disabled="!src"
                 @click="setPlaybackRate(rate)"
               >
                 {{ rate }}x
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -293,13 +305,15 @@ onUnmounted(() => {
       <!-- No Source -->
       <div
         v-else
-        class="text-center py-8 text-gray-500"
+        class="text-center py-12"
       >
-        <div class="text-4xl mb-2">
-          🎵
-        </div>
-        <p>No music generated yet</p>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-text-muted mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
+        </svg>
+        <p class="text-text-secondary">还没有生成音乐</p>
       </div>
     </div>
-  </Card>
+  </div>
 </template>

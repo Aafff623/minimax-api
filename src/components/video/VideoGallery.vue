@@ -71,23 +71,26 @@ function nextPage() {
   <div class="video-gallery">
     <!-- Empty State -->
     <div v-if="videoStore.gallery.length === 0" class="empty-state">
-      <div class="i-icon-park-outline-video text-6xl text-gray-300 mb-4" />
-      <p class="text-gray-500 text-center">
-        No videos yet. Start generating!
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-text-muted mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polygon points="23 7 16 12 23 17 23 7" />
+        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+      </svg>
+      <p class="text-text-secondary text-center">
+        还没有视频，开始生成吧！
       </p>
     </div>
 
     <!-- Gallery Grid -->
     <div v-else class="gallery-content">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         <div
           v-for="video in paginatedVideos"
           :key="video.taskId"
-          class="video-card rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
+          class="video-card rounded-2xl overflow-hidden bg-surface border border-border-light shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1"
           @click="openPlayer(video)"
         >
           <!-- Cover / Thumbnail -->
-          <div class="aspect-video bg-gray-100 dark:bg-gray-700 relative">
+          <div class="aspect-video bg-gray-100 relative">
             <img
               v-if="video.coverUrl"
               :src="video.coverUrl"
@@ -96,15 +99,18 @@ function nextPage() {
             >
             <div
               v-else
-              class="w-full h-full flex items-center justify-center"
+              class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
             >
-              <span class="i-icon-park-outline-video text-4xl text-gray-400" />
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="23 7 16 12 23 17 23 7" />
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+              </svg>
             </div>
 
             <!-- Duration Badge -->
             <span
               v-if="video.duration"
-              class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-xs font-mono"
+              class="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-black/70 text-white text-xs font-medium backdrop-blur-sm"
             >
               {{ formatDuration(video.duration) }}
             </span>
@@ -112,20 +118,22 @@ function nextPage() {
             <!-- Play Icon Overlay -->
             <div class="play-overlay">
               <div class="play-icon">
-                <span class="i-icon-park-outline-play text-2xl" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
               </div>
             </div>
           </div>
 
           <!-- Info -->
-          <div class="p-3">
+          <div class="p-4">
             <p
               v-if="video.prompt"
-              class="text-sm text-gray-700 dark:text-gray-200 truncate mb-1"
+              class="text-sm text-text-primary truncate mb-2 font-medium"
             >
               {{ video.prompt }}
             </p>
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-text-muted">
               {{ formatDate(video.createdAt) }}
             </p>
           </div>
@@ -133,25 +141,29 @@ function nextPage() {
       </div>
 
       <!-- Pagination -->
-      <div v-if="totalPages > 1" class="pagination mt-6 flex items-center justify-center gap-4">
+      <div v-if="totalPages > 1" class="pagination mt-8 flex items-center justify-center gap-4">
         <button
-          class="btn btn-sm btn-ghost"
+          class="btn btn-secondary w-10 h-10 p-0 flex items-center justify-center"
           :disabled="currentPage === 1"
           @click="prevPage"
         >
-          <span class="i-icon-park-outline-left text-lg" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
         </button>
 
-        <span class="text-sm text-gray-600">
+        <span class="text-sm text-text-secondary px-4">
           {{ currentPage }} / {{ totalPages }}
         </span>
 
         <button
-          class="btn btn-sm btn-ghost"
+          class="btn btn-secondary w-10 h-10 p-0 flex items-center justify-center"
           :disabled="currentPage === totalPages"
           @click="nextPage"
         >
-          <span class="i-icon-park-outline-right text-lg" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
         </button>
       </div>
     </div>
@@ -166,13 +178,16 @@ function nextPage() {
         <div class="player-container">
           <div class="player-header">
             <h3 class="player-title truncate">
-              {{ selectedVideo.prompt || 'Video Preview' }}
+              {{ selectedVideo.prompt || '视频预览' }}
             </h3>
             <button
               class="close-btn"
               @click="closePlayer"
             >
-              <span class="i-icon-park-outline-close text-xl" />
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
             </button>
           </div>
 
@@ -185,13 +200,16 @@ function nextPage() {
 
           <div class="player-footer">
             <button
-              class="btn btn-sm btn-error"
+              class="btn btn-danger"
               @click="handleDelete(selectedVideo.taskId)"
             >
-              <span class="i-icon-park-outline-delete text-lg mr-1" />
-              Delete
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              </svg>
+              删除
             </button>
-            <span class="text-sm text-gray-500">
+            <span class="text-sm text-white/60">
               {{ formatDate(selectedVideo.createdAt) }}
             </span>
           </div>
@@ -207,19 +225,29 @@ function nextPage() {
 }
 
 .empty-state {
-  @apply flex flex-col items-center justify-center py-16;
+  @apply flex flex-col items-center justify-center py-20;
 }
 
 .video-card {
-  @apply border border-gray-100 dark:border-gray-700;
+  @apply border border-border-light;
+}
+
+.video-card:hover {
+  @apply border-primary/30;
 }
 
 .video-card .play-overlay {
-  @apply absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity;
+  @apply absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300;
+}
+
+.video-card:hover .play-overlay {
+  @apply opacity-100;
 }
 
 .video-card .play-icon {
-  @apply w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-gray-800;
+  @apply w-14 h-14 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center text-white;
+  @apply shadow-lg transition-all duration-300;
+  @apply hover:scale-110 hover:bg-primary;
 }
 
 .pagination {
@@ -227,26 +255,27 @@ function nextPage() {
 }
 
 .player-overlay {
-  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80;
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm;
 }
 
 .player-container {
-  @apply w-full max-w-4xl mx-4 rounded-lg overflow-hidden bg-black;
+  @apply w-full max-w-4xl mx-4 rounded-2xl overflow-hidden bg-gray-900;
+  @apply shadow-2xl;
 }
 
 .player-header {
-  @apply flex items-center justify-between p-4 bg-gray-900;
+  @apply flex items-center justify-between p-4 bg-gray-900 border-b border-white/10;
 }
 
 .player-title {
-  @apply text-white font-medium flex-1 mr-4;
+  @apply text-white font-medium flex-1 mr-4 truncate;
 }
 
 .close-btn {
-  @apply p-2 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-colors;
+  @apply p-2.5 rounded-xl text-white/80 hover:bg-white/10 hover:text-white transition-all duration-200;
 }
 
 .player-footer {
-  @apply flex items-center justify-between p-4 bg-gray-900;
+  @apply flex items-center justify-between p-4 bg-gray-900 border-t border-white/10;
 }
 </style>

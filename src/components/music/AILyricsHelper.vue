@@ -112,182 +112,119 @@ function discardSuggestion() {
 </script>
 
 <template>
-  <div class="ai-lyrics-helper">
-    <div class="helper-header">
-      <h3 class="helper-title">
-        <span class="i-carbon-artificial-intelligence mr-2" />
-        AI Lyrics Helper
+  <div class="card">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="label flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
+          <path d="M16 14v2a4 4 0 0 1-8 0v-2" />
+          <line x1="12" y1="14" x2="12" y2="22" />
+          <line x1="8" y1="22" x2="16" y2="22" />
+        </svg>
+        AI 歌词助手
       </h3>
     </div>
 
     <!-- Mode Selection -->
-    <div class="mode-tabs">
+    <div class="flex gap-2 mb-5 p-1 bg-gray-100 rounded-xl">
       <button
-        class="mode-tab"
-        :class="{ active: mode === 'suggest' }"
+        class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200"
+        :class="mode === 'suggest' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'"
         @click="mode = 'suggest'"
       >
-        <span class="i-carbon-light mr-1" />
-        Generate New
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
+          <path d="M16 14v2a4 4 0 0 1-8 0v-2" />
+          <line x1="12" y1="14" x2="12" y2="22" />
+          <line x1="8" y1="22" x2="16" y2="22" />
+        </svg>
+        生成新歌词
       </button>
       <button
-        class="mode-tab"
-        :class="{ active: mode === 'continue' }"
+        class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200"
+        :class="mode === 'continue' ? 'bg-white text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'"
         @click="mode = 'continue'"
       >
-        <span class="i-carbon-forward mr-1" />
-        Continue Existing
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+        继续创作
       </button>
     </div>
 
     <!-- Input Section -->
-    <div class="input-section">
-      <p class="input-hint">
+    <div class="space-y-4">
+      <p class="text-sm text-text-secondary">
         <template v-if="mode === 'suggest'">
-          Generate creative lyrics based on your selected style
+          基于您选择的风格生成创意歌词
         </template>
         <template v-else>
-          Continue from your existing lyrics
+          根据现有歌词继续创作
         </template>
       </p>
 
       <button
-        class="generate-btn"
+        class="btn btn-primary w-full py-3"
         :disabled="isLoading"
         @click="onSubmit"
       >
-        <span v-if="isLoading" class="i-carbon-loading animate-spin mr-2" />
-        <span v-else class="i-carbon-rocket mr-2" />
-        {{ isLoading ? 'Generating...' : (mode === 'suggest' ? 'Generate Lyrics' : 'Continue Lyrics') }}
+        <svg v-if="!isLoading" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 2L11 13" />
+          <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+        {{ isLoading ? '生成中...' : (mode === 'suggest' ? '生成歌词' : '继续歌词') }}
       </button>
     </div>
 
     <!-- Error Display -->
-    <div v-if="error" class="error-message">
-      <span class="i-carbon-warning mr-2" />
+    <div v-if="error" class="mt-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
       {{ error }}
     </div>
 
     <!-- Suggestion Display -->
-    <div v-if="suggestion" class="suggestion-section">
-      <div class="suggestion-header">
-        <span class="suggestion-label">Generated Lyrics:</span>
+    <div v-if="suggestion" class="mt-5 p-5 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border border-border-light">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-medium text-text-primary flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          生成的歌词
+        </span>
       </div>
-      <div class="suggestion-content">
-        <pre class="lyrics-text">{{ suggestion }}</pre>
+      <div class="max-h-60 overflow-y-auto mb-4">
+        <pre class="text-sm text-text-secondary whitespace-pre-wrap leading-relaxed">{{ suggestion }}</pre>
       </div>
-      <div class="suggestion-actions">
-        <button class="action-btn primary" @click="applySuggestion">
-          <span class="i-carbon-checkmark mr-1" />
-          Apply
+      <div class="flex gap-2 justify-end">
+        <button class="btn btn-secondary text-sm" @click="discardSuggestion">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          放弃
         </button>
-        <button class="action-btn secondary" @click="discardSuggestion">
-          <span class="i-carbon-close mr-1" />
-          Discard
+        <button class="btn btn-primary text-sm" @click="applySuggestion">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          应用
         </button>
       </div>
     </div>
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="loading-state">
-      <div class="loading-spinner" />
-      <p class="loading-text">
-        AI is crafting your lyrics...
+    <div v-if="isLoading" class="flex flex-col items-center justify-center py-10 gap-3">
+      <div class="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+      <p class="text-sm text-text-muted">
+        AI 正在创作歌词...
       </p>
     </div>
   </div>
 </template>
-
-<style scoped>
-.ai-lyrics-helper {
-  @apply flex flex-col w-full bg-gray-800 rounded-lg p-4 gap-4;
-}
-
-.helper-header {
-  @apply flex items-center justify-between;
-}
-
-.helper-title {
-  @apply flex items-center text-lg font-semibold text-gray-100;
-}
-
-.mode-tabs {
-  @apply flex gap-2 bg-gray-900 rounded-lg p-1;
-}
-
-.mode-tab {
-  @apply flex items-center px-4 py-2 text-sm text-gray-400 rounded-md transition-all;
-}
-
-.mode-tab.active {
-  @apply bg-gray-700 text-gray-100;
-}
-
-.mode-tab:hover:not(.active) {
-  @apply text-gray-300;
-}
-
-.input-section {
-  @apply flex flex-col gap-3;
-}
-
-.input-hint {
-  @apply text-sm text-gray-400;
-}
-
-.generate-btn {
-  @apply flex items-center justify-center px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
-}
-
-.error-message {
-  @apply flex items-center px-4 py-3 bg-red-900/30 border border-red-800 rounded-lg text-red-400 text-sm;
-}
-
-.suggestion-section {
-  @apply flex flex-col gap-3 p-4 bg-gray-900 rounded-lg;
-}
-
-.suggestion-header {
-  @apply flex items-center justify-between;
-}
-
-.suggestion-label {
-  @apply text-sm font-medium text-gray-300;
-}
-
-.suggestion-content {
-  @apply max-h-60 overflow-y-auto;
-}
-
-.lyrics-text {
-  @apply text-sm text-gray-300 whitespace-pre-wrap font-sans leading-relaxed;
-}
-
-.suggestion-actions {
-  @apply flex gap-2 justify-end;
-}
-
-.action-btn {
-  @apply flex items-center px-3 py-1.5 text-sm rounded-md transition-colors;
-}
-
-.action-btn.primary {
-  @apply bg-green-600 text-white hover:bg-green-500;
-}
-
-.action-btn.secondary {
-  @apply bg-gray-700 text-gray-300 hover:bg-gray-600;
-}
-
-.loading-state {
-  @apply flex flex-col items-center justify-center py-8 gap-3;
-}
-
-.loading-spinner {
-  @apply w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin;
-}
-
-.loading-text {
-  @apply text-sm text-gray-400;
-}
-</style>

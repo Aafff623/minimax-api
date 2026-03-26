@@ -49,11 +49,32 @@ function nextPage() {
 
 <template>
   <div class="image-gallery">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="section-title flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+        我的画廊
+      </h2>
+      <span class="text-sm text-text-secondary">{{ imageStore.gallery.length }} 张图片</span>
+    </div>
+
     <!-- Empty State -->
     <div v-if="imageStore.gallery.length === 0" class="empty-state">
-      <div class="i-icon-park-outline-picture text-6xl text-gray-300 mb-4" />
-      <p class="text-gray-500 text-center">
-        No images yet. Start generating!
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-gray-300 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="9" cy="9" r="2" />
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+      </svg>
+      <p class="text-gray-500 text-center text-lg font-medium mb-2">
+        还没有图片
+      </p>
+      <p class="text-gray-400 text-center text-sm">
+        开始生成你的第一张 AI 图片吧
       </p>
     </div>
 
@@ -63,38 +84,45 @@ function nextPage() {
         <div
           v-for="(imageUrl, index) in paginatedImages"
           :key="imageUrl"
-          class="gallery-item aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+          class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer bg-gray-100 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 group"
           @click="openDetail(imageUrl)"
         >
           <img
             :src="imageUrl"
             :alt="`Generated image ${index + 1}`"
-            class="w-full h-full object-cover"
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           >
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       </div>
 
       <!-- Pagination -->
       <div v-if="totalPages > 1" class="pagination mt-6 flex items-center justify-center gap-4">
         <button
-          class="btn btn-sm btn-ghost"
+          class="btn btn-secondary"
           :disabled="currentPage === 1"
           @click="prevPage"
         >
-          <span class="i-icon-park-outline-left text-lg" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          上一页
         </button>
 
-        <span class="text-sm text-gray-600">
+        <span class="text-sm text-text-secondary font-medium px-4">
           {{ currentPage }} / {{ totalPages }}
         </span>
 
         <button
-          class="btn btn-sm btn-ghost"
+          class="btn btn-secondary"
           :disabled="currentPage === totalPages"
           @click="nextPage"
         >
-          <span class="i-icon-park-outline-right text-lg" />
+          下一页
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
         </button>
       </div>
     </div>
@@ -115,11 +143,11 @@ function nextPage() {
 }
 
 .empty-state {
-  @apply flex flex-col items-center justify-center py-16;
+  @apply flex flex-col items-center justify-center py-16 text-center;
 }
 
 .gallery-item {
-  @apply bg-gray-100;
+  @apply relative;
 }
 
 .pagination {

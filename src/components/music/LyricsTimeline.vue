@@ -194,71 +194,79 @@ defineExpose({
 </script>
 
 <template>
-  <div class="lyrics-timeline">
+  <div class="lyrics-timeline rounded-2xl overflow-hidden">
     <!-- Header -->
-    <div class="timeline-header">
-      <div class="timeline-info">
-        <span class="time-display">{{ formatTime(currentTime) }}</span>
-        <span class="separator">/</span>
-        <span class="time-display">{{ formatTime(duration) }}</span>
+    <div class="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <span class="text-lg font-bold text-white font-mono">{{ formatTime(currentTime) }}</span>
+        <span class="text-gray-500">/</span>
+        <span class="text-sm text-gray-400 font-mono">{{ formatTime(duration) }}</span>
       </div>
-      <div class="timeline-actions">
+      <div class="flex items-center gap-2">
         <button
-          class="action-btn"
-          title="Auto Align"
+          class="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-200"
+          title="自动对齐"
           @click="autoAlign"
         >
-          <span class="i-carbon-align-horizontal-center" />
-          Auto Align
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="21" y1="10" x2="3" y2="10" />
+            <line x1="21" y1="6" x2="3" y2="6" />
+            <line x1="21" y1="14" x2="3" y2="14" />
+            <line x1="21" y1="18" x2="3" y2="18" />
+          </svg>
+          自动对齐
         </button>
         <button
-          class="action-btn"
-          title="Add Line"
+          class="flex items-center gap-2 px-4 py-2 text-sm text-white bg-primary rounded-xl hover:bg-primary/90 transition-all duration-200 shadow-sm"
+          title="添加行"
           @click="addLineAtTime(currentTime)"
         >
-          <span class="i-carbon-add" />
-          Add Line
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          添加行
         </button>
       </div>
     </div>
 
     <!-- Timeline Body -->
     <div
-      class="timeline-body"
+      class="timeline-body relative overflow-x-auto py-5 px-3"
       :style="{ width: `${Math.max(timelineWidth, 800)}px` }"
       @click="onTimelineClick"
     >
       <!-- Time markers -->
-      <div class="time-markers">
+      <div class="absolute top-0 left-0 right-0 h-6 pointer-events-none">
         <template v-for="i in Math.ceil(duration / 5)" :key="i">
           <div
-            class="time-marker"
+            class="absolute flex flex-col items-center"
             :style="{ left: `${i * 5 * SCALE}px` }"
           >
-            <span class="marker-line" />
-            <span class="marker-label">{{ formatTime(i * 5) }}</span>
+            <span class="w-px h-2 bg-gray-600" />
+            <span class="text-xs text-gray-500 mt-1 font-mono">{{ formatTime(i * 5) }}</span>
           </div>
         </template>
       </div>
 
       <!-- Playhead -->
       <div
-        class="playhead"
+        class="playhead absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-400 to-red-600 cursor-ew-resize z-20"
         :style="{ left: `${currentTime * SCALE}px` }"
         @mousedown="onPlayheadDragStart"
         @touchstart="onPlayheadDragStart"
       >
-        <div class="playhead-handle" />
+        <div class="absolute -top-1 -left-1.5 w-4 h-4 bg-gradient-to-br from-red-400 to-red-600 rounded-full shadow-lg" />
       </div>
 
       <!-- Lyric lines -->
       <div
         v-for="line in lyrics"
         :key="line.id"
-        class="lyric-line"
+        class="lyric-line absolute top-10 h-16 rounded-xl cursor-ns-resize transition-all duration-75"
         :class="{
-          active: activeLineId === line.id,
-          dragging: draggedLineId === line.id,
+          'active-line': activeLineId === line.id,
+          'dragging-line': draggedLineId === line.id,
         }"
         :style="{
           left: `${getLinePosition(line.startTime)}px`,
@@ -267,24 +275,27 @@ defineExpose({
         @mousedown="onLineDragStart($event, line)"
         @touchstart="onLineDragStart($event, line)"
       >
-        <div class="line-content">
+        <div class="flex items-center gap-2 p-3 h-full">
           <input
             type="text"
-            class="lyric-input"
+            class="flex-1 bg-transparent text-gray-200 text-sm outline-none border-none placeholder-gray-500"
             :value="line.text"
-            placeholder="Lyrics..."
+            placeholder="歌词..."
             @input="updateLineText(line.id, ($event.target as HTMLInputElement).value)"
             @click.stop
           >
           <button
-            class="delete-btn"
-            title="Delete"
+            class="p-1.5 text-gray-500 hover:text-red-400 transition-colors duration-200 rounded-lg hover:bg-white/10"
+            title="删除"
             @click.stop="deleteLine(line.id)"
           >
-            <span class="i-carbon-close" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
           </button>
         </div>
-        <div class="line-time">
+        <div class="absolute bottom-1 right-3 text-xs text-gray-500 font-mono">
           {{ formatTime(line.startTime) }}
         </div>
       </div>
@@ -294,87 +305,28 @@ defineExpose({
 
 <style scoped>
 .lyrics-timeline {
-  @apply flex flex-col w-full h-full bg-gray-900 rounded-lg overflow-hidden;
-}
-
-.timeline-header {
-  @apply flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700;
-}
-
-.timeline-info {
-  @apply flex items-center gap-2 font-mono text-sm;
-}
-
-.time-display {
-  @apply text-gray-300;
-}
-
-.separator {
-  @apply text-gray-600;
-}
-
-.timeline-actions {
-  @apply flex items-center gap-2;
-}
-
-.action-btn {
-  @apply flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-300 bg-gray-700 rounded hover:bg-gray-600 transition-colors;
+  @apply flex flex-col w-full h-full bg-gray-900;
 }
 
 .timeline-body {
-  @apply relative flex-1 overflow-x-auto overflow-y-hidden py-4 px-2;
   min-height: 120px;
 }
 
-.time-markers {
-  @apply absolute top-0 left-0 right-0 h-6 pointer-events-none;
-}
-
-.time-marker {
-  @apply absolute flex flex-col items-center;
-}
-
-.marker-line {
-  @apply w-px h-2 bg-gray-600;
-}
-
-.marker-label {
-  @apply text-xs text-gray-500 mt-0.5 font-mono;
-}
-
 .playhead {
-  @apply absolute top-0 bottom-0 w-0.5 bg-red-500 cursor-ew-resize z-20;
-}
-
-.playhead-handle {
-  @apply absolute -top-1 -left-1.5 w-3 h-3 bg-red-500 rounded-full shadow-lg;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
 }
 
 .lyric-line {
-  @apply absolute top-8 h-16 bg-gray-800 border border-gray-700 rounded-lg cursor-ns-resize transition-all duration-75;
+  @apply bg-gray-800 border border-gray-700;
 }
 
-.lyric-line.active {
-  @apply bg-blue-900 border-blue-500;
+.lyric-line.active-line {
+  @apply bg-primary/20 border-primary/50;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
 }
 
-.lyric-line.dragging {
-  @apply opacity-80 shadow-lg z-10;
-}
-
-.line-content {
-  @apply flex items-center gap-2 p-2 h-full;
-}
-
-.lyric-input {
-  @apply flex-1 bg-transparent text-gray-200 text-sm outline-none border-none placeholder-gray-500;
-}
-
-.line-time {
-  @apply absolute bottom-0.5 right-2 text-xs text-gray-500 font-mono;
-}
-
-.delete-btn {
-  @apply p-1 text-gray-500 hover:text-red-400 transition-colors;
+.lyric-line.dragging-line {
+  @apply opacity-80 shadow-xl z-10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 </style>

@@ -31,24 +31,29 @@ function selectTemplate(value: string) {
 
 <template>
   <div class="template-selector">
-    <div class="text-sm text-gray-6 mb-2">
+    <div class="label flex items-center gap-2 mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+        <line x1="7" y1="2" x2="7" y2="22" />
+        <line x1="17" y1="2" x2="17" y2="22" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+      </svg>
       视频模板
     </div>
-    <div class="grid grid-cols-4 gap-2">
+    <div class="grid grid-cols-4 gap-3">
       <button
         v-for="template in templates"
         :key="template.value"
         type="button"
-        class="flex flex-col items-center gap-1 p-3 rounded-lg border transition-all"
-        :class="[
+        class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200" :class="[
           selectedTemplate === template.value
-            ? 'border-primary bg-primary/10 text-primary'
-            : 'border-gray-2 hover:border-gray-4 text-gray-6',
+            ? 'border-primary bg-primary text-white shadow-button'
+            : 'border-border-light bg-white text-text-primary hover:border-primary/50 hover:bg-primary/5',
         ]"
         @click="selectTemplate(template.value)"
       >
-        <span class="text-lg" :class="[template.icon]" />
-        <span class="text-xs">{{ template.label }}</span>
+        <span class="text-2xl" :class="[template.icon]" />
+        <span class="text-xs font-medium">{{ template.label }}</span>
       </button>
     </div>
   </div>
