@@ -72,30 +72,68 @@ function handleStop() {
 </script>
 
 <template>
-  <div class="chat-window">
-    <div class="chat-header">
-      <h2 class="chat-title">
-        AI 对话
-      </h2>
-      <span class="chat-model">M2.7-highspeed</span>
+  <div class="chat-window rounded-2xl overflow-hidden border border-border-light shadow-sm">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-primary/10 to-secondary/10 border-b border-border-light">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
+            <path d="M16 14v2a4 4 0 0 1-8 0v-2" />
+            <line x1="12" y1="14" x2="12" y2="22" />
+            <line x1="8" y1="22" x2="16" y2="22" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-text-primary flex items-center gap-2">
+            AI 对话
+          </h2>
+          <p class="text-xs text-text-muted">M2.7-highspeed</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-1.5 animate-pulse" />
+          在线
+        </span>
+      </div>
     </div>
 
+    <!-- Message List -->
     <MessageList
       :messages="messages"
       :streaming-content="isStreaming ? streamingContent : ''"
     />
 
-    <div class="chat-footer">
-      <div v-if="isStreaming" class="streaming-indicator">
-        <span class="streaming-dot" />
-        <span>AI 正在输入...</span>
-        <button class="btn-stop" @click="handleStop">
+    <!-- Footer -->
+    <div class="p-4 border-t border-border-light bg-gradient-to-t from-gray-50/50 to-white">
+      <!-- Streaming Indicator -->
+      <div v-if="isStreaming" class="flex items-center gap-3 mb-3 px-4 py-2.5 rounded-xl bg-primary/5 border border-primary/10">
+        <div class="flex gap-1">
+          <span class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0ms" />
+          <span class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 150ms" />
+          <span class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 300ms" />
+        </div>
+        <span class="text-sm text-primary font-medium">AI 正在输入...</span>
+        <button
+          class="ml-auto px-3 py-1.5 text-xs font-medium rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200"
+          @click="handleStop"
+        >
           停止
         </button>
       </div>
-      <div v-if="error" class="error-message">
+
+      <!-- Error Message -->
+      <div v-if="error" class="mb-3 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
         {{ error.message }}
       </div>
+
+      <!-- Input -->
       <MessageInput
         v-model="inputValue"
         :loading="isStreaming"
@@ -108,51 +146,6 @@ function handleStop() {
 
 <style scoped>
 .chat-window {
-  @apply flex flex-col h-full bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700;
-  @apply overflow-hidden;
-}
-
-.chat-header {
-  @apply flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700;
-  @apply bg-gray-50 dark:bg-gray-800;
-}
-
-.chat-title {
-  @apply text-base font-semibold text-gray-800 dark:text-gray-100 m-0;
-}
-
-.chat-model {
-  @apply text-xs px-2 py-1 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300;
-}
-
-.chat-footer {
-  @apply p-3 border-t border-gray-200 dark:border-gray-700;
-}
-
-.streaming-indicator {
-  @apply flex items-center gap-2 mb-2 text-xs text-gray-500 dark:text-gray-400;
-}
-
-.streaming-dot {
-  @apply w-2 h-2 rounded-full bg-primary-500;
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-.btn-stop {
-  @apply ml-auto px-2 py-1 text-xs rounded bg-gray-200 dark:bg-gray-700;
-  @apply hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors;
-}
-
-.error-message {
-  @apply text-xs text-red-500 mb-2 px-2 py-1 rounded bg-red-50 dark:bg-red-900/20;
+  @apply flex flex-col h-full bg-white;
 }
 </style>

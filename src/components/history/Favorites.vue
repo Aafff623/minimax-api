@@ -9,8 +9,8 @@ interface Props {
 defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: 'toggleFavorite', id: string): void
-  (e: 'viewDetail', item: HistoryItem): void
+  'toggleFavorite': [id: string]
+  'viewDetail': [item: HistoryItem]
 }>()
 
 function getTypeLabel(type: HistoryItem['type']): string {
@@ -26,13 +26,13 @@ function getTypeLabel(type: HistoryItem['type']): string {
 
 function getTypeColor(type: HistoryItem['type']): string {
   const colors = {
-    voice: 'bg-purple-100 text-purple-700',
-    image: 'bg-green-100 text-green-700',
-    video: 'bg-red-100 text-red-700',
-    music: 'bg-yellow-100 text-yellow-700',
-    chat: 'bg-blue-100 text-blue-700',
+    voice: 'bg-purple-100 text-purple-700 border-purple-200',
+    image: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+    video: 'bg-red-100 text-red-700 border-red-200',
+    music: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+    chat: 'bg-blue-100 text-blue-700 border-blue-200',
   }
-  return colors[type] || 'bg-gray-100 text-gray-700'
+  return colors[type] || 'bg-gray-100 text-gray-700 border-gray-200'
 }
 
 function formatDate(timestamp: number): string {
@@ -80,42 +80,33 @@ function getPreviewText(item: HistoryItem): string {
 
 <template>
   <div class="favorites">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-800">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-semibold text-text-primary flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
         我的收藏
       </h3>
-      <span class="text-sm text-gray-500">{{ favorites.length }} 项</span>
+      <span class="px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-200">{{ favorites.length }} 项</span>
     </div>
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="py-8 text-center">
-      <div class="inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-      <p class="mt-2 text-sm text-gray-500">
+    <div v-if="isLoading" class="py-12 text-center">
+      <div class="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+      <p class="mt-4 text-sm text-text-muted">
         加载中...
       </p>
     </div>
 
     <!-- Empty State -->
-    <div v-else-if="favorites.length === 0" class="py-8 text-center">
-      <svg
-        class="mx-auto w-12 h-12 text-gray-300"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.5"
-          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-        />
-      </svg>
-      <p class="mt-3 text-sm text-gray-500">
-        暂无收藏内容
-      </p>
-      <p class="text-xs text-gray-400">
-        点击列表中的星标添加收藏
-      </p>
+    <div v-else-if="favorites.length === 0" class="py-16 text-center">
+      <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center mx-auto mb-5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold text-text-primary mb-2">暂无收藏内容</h3>
+      <p class="text-sm text-text-muted mb-1">点击列表中的星标添加收藏</p>
     </div>
 
     <!-- Favorites List -->
@@ -123,42 +114,37 @@ function getPreviewText(item: HistoryItem): string {
       <div
         v-for="item in favorites"
         :key="item.id"
-        class="group p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 cursor-pointer"
+        class="group p-4 bg-white rounded-2xl border-2 border-border-light hover:border-yellow-300 hover:shadow-lg transition-all duration-200 cursor-pointer"
         @click="emit('viewDetail', item)"
       >
-        <div class="flex items-start gap-3">
+        <div class="flex items-start gap-4">
           <!-- Type Badge -->
           <span
-            class="px-2 py-0.5 rounded text-xs font-medium" :class="[
-              getTypeColor(item.type),
-            ]"
+            class="px-3 py-1.5 rounded-xl text-xs font-semibold border flex-shrink-0"
+            :class="getTypeColor(item.type)"
           >
             {{ getTypeLabel(item.type) }}
           </span>
 
           <!-- Content -->
           <div class="flex-1 min-w-0">
-            <p class="text-sm text-gray-700 truncate">
+            <p class="text-sm text-text-primary truncate mb-2">
               {{ getPreviewText(item) }}
             </p>
-            <p class="text-xs text-gray-400 mt-1">
+            <p class="text-xs text-text-muted">
               {{ formatDate(item.createdAt) }}
             </p>
           </div>
 
-          <!-- Actions -->
+          <!-- Favorite Icon -->
           <button
             type="button"
-            class="p-1.5 text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50 rounded transition-colors duration-200"
+            class="p-2 text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-xl transition-all duration-200"
             title="取消收藏"
             @click.stop="emit('toggleFavorite', item.id)"
           >
-            <svg
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
           </button>
         </div>

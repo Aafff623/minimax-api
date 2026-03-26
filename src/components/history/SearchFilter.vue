@@ -9,10 +9,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: 'update:filter', value: string): void
-  (e: 'update:searchQuery', value: string): void
-  (e: 'search', query: string): void
-  (e: 'filterChange', type: string): void
+  'update:filter': [value: string]
+  'update:searchQuery': [value: string]
+  'search': [query: string]
+  'filterChange': [type: string]
 }>()
 
 const localSearch = ref(props.searchQuery)
@@ -55,7 +55,15 @@ watch(() => props.filter, (val) => {
 </script>
 
 <template>
-  <div class="search-filter p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+  <div class="card mb-5">
+    <div class="flex items-center gap-3 mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      <span class="text-sm font-medium text-text-primary">筛选</span>
+    </div>
+
     <!-- Search Input -->
     <div class="mb-4">
       <div class="relative">
@@ -63,13 +71,12 @@ watch(() => props.filter, (val) => {
           v-model="localSearch"
           type="text"
           placeholder="搜索历史记录..."
-          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg transition-colors duration-200
-                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          class="input-base pl-10 pr-4 py-2.5 rounded-xl"
           @input="handleSearchInput"
           @keyup.enter="emit('search', localSearch)"
         >
         <svg
-          class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -90,11 +97,10 @@ watch(() => props.filter, (val) => {
         v-for="option in typeOptions"
         :key="option.value"
         type="button"
-        class="px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200" :class="[
-          localFilter === option.value
-            ? 'bg-blue-500 text-white'
-            : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
-        ]"
+        class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+        :class="localFilter === option.value
+          ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-md'
+          : 'bg-gray-100 text-text-secondary hover:bg-gray-200'"
         @click="handleFilterChange(option.value)"
       >
         {{ option.label }}

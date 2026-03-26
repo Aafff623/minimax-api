@@ -44,99 +44,51 @@ function handleClear() {
 </script>
 
 <template>
-  <div class="message-input">
-    <div class="input-wrapper">
+  <div class="w-full">
+    <div class="relative flex flex-col gap-3 p-4 rounded-2xl bg-white border-2 border-border-light focus-within:border-primary/50 transition-all duration-200 shadow-sm">
       <textarea
         v-model="internalValue"
-        class="input-textarea"
+        class="w-full resize-none rounded-xl px-4 py-3 text-sm bg-transparent border-none outline-none placeholder-text-muted disabled:cursor-not-allowed disabled:opacity-50"
         :disabled="disabled || loading"
         placeholder="输入消息，Shift+Enter 换行..."
         rows="3"
         @keydown="handleKeydown"
       />
-      <div class="input-actions">
+
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button
+            class="p-2.5 rounded-xl text-text-muted hover:text-text-secondary hover:bg-gray-100 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            :disabled="!internalValue || loading"
+            title="清空"
+            @click="handleClear"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+          </button>
+        </div>
+
         <button
-          class="btn-clear"
-          :disabled="!internalValue || loading"
-          title="清空"
-          @click="handleClear"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-          </svg>
-        </button>
-        <button
-          class="btn-send"
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-200 shadow-sm"
+          :class="!internalValue.trim() || disabled || loading
+            ? 'bg-gray-200 text-text-muted cursor-not-allowed'
+            : 'bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5'"
           :disabled="!internalValue.trim() || disabled || loading"
           title="发送"
           @click="handleSend"
         >
-          <svg v-if="!loading" xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+          <svg v-if="!loading" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
           </svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" class="icon animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="12" />
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
           </svg>
+          {{ loading ? '发送中...' : '发送' }}
         </button>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.message-input {
-  @apply w-full;
-}
-
-.input-wrapper {
-  @apply relative flex flex-col gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700;
-}
-
-.input-textarea {
-  @apply w-full resize-none rounded-md px-3 py-2 text-sm bg-transparent border-none outline-none;
-  @apply placeholder:text-gray-400 dark:placeholder:text-gray-500;
-  @apply disabled:cursor-not-allowed disabled:opacity-50;
-  min-height: 60px;
-  max-height: 120px;
-}
-
-.input-textarea:disabled {
-  @apply cursor-not-allowed;
-}
-
-.input-actions {
-  @apply flex justify-end gap-2;
-}
-
-.btn-clear,
-.btn-send {
-  @apply p-2 rounded-md transition-all duration-200;
-  @apply disabled:opacity-40 disabled:cursor-not-allowed;
-}
-
-.btn-clear {
-  @apply text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-700;
-}
-
-.btn-send {
-  @apply text-white bg-primary-500 hover:bg-primary-600;
-  @apply disabled:bg-gray-300 dark:disabled:bg-gray-600;
-}
-
-.icon {
-  @apply w-4 h-4;
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>
