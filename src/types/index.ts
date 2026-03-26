@@ -24,10 +24,22 @@ export interface VoiceStreamRequest {
 }
 
 // ============ Image ============
+export type ImageSize = '1:1' | '16:9' | '9:16' | '3:4' | '4:3'
+export type ImageQuality = 'standard' | 'high'
+export type ImageStyle
+  = | 'realistic'
+    | 'anime'
+    | 'illustration'
+    | '3d-render'
+    | 'oil-painting'
+    | 'watercolor'
+    | 'sketch'
+    | 'digital-art'
+
 export interface ImageRequest {
   model: 'image-01'
   prompt: string
-  image_size?: '1:1' | '16:9' | '9:16' | '3:4' | '4:3'
+  image_size?: ImageSize
   image_ratio?: string
   num_images?: number
 }
@@ -35,7 +47,13 @@ export interface ImageRequest {
 export interface ImageResponse {
   task_id: string
   status: 'pending' | 'processing' | 'success' | 'failed'
+  progress?: number
   image_urls?: string[]
+}
+
+export interface ImageFileResponse {
+  file_id: string
+  url: string
 }
 
 // ============ Video ============
