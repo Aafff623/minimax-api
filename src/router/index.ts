@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ChatView from '@/views/ChatView.vue'
+import HistoryView from '@/views/HistoryView.vue'
 import HomeView from '@/views/HomeView.vue'
 import VoiceView from '@/views/VoiceView.vue'
 
@@ -14,6 +16,16 @@ const router = createRouter({
       path: '/voice',
       name: 'voice',
       component: VoiceView,
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: ChatView,
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: HistoryView,
     },
   ],
 })
