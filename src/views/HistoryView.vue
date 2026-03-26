@@ -52,7 +52,6 @@ async function handleLoadMore() {
 }
 
 function handleViewDetail(item: HistoryItem) {
-  // TODO: Navigate to detail view based on type
   console.warn('View detail:', item)
 }
 
@@ -64,29 +63,31 @@ watch(activeTab, async (tab) => {
 </script>
 
 <template>
-  <div class="history-view p-6 min-h-screen" style="background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);">
-    <div class="max-w-6xl mx-auto">
-      <!-- Header -->
+  <div class="history-view min-h-screen" style="background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Header Section -->
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-text-primary flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/25">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
           历史记录
         </h1>
-        <p class="text-text-secondary mt-1">
+        <p class="text-text-secondary mt-2 ml-13">
           管理和查看您的所有创作历史
         </p>
       </div>
 
       <!-- Tabs -->
-      <div class="flex gap-2 mb-6 p-1.5 bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-border-light w-fit">
+      <div class="flex gap-2 mb-8 p-1.5 bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-border-light w-fit">
         <button
           type="button"
-          class="px-5 py-2.5 text-sm font-medium rounded-xl transition-all duration-200"
+          class="px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200"
           :class="activeTab === 'history'
-            ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-md'
+            ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/25'
             : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'"
           @click="activeTab = 'history'"
         >
@@ -100,9 +101,9 @@ watch(activeTab, async (tab) => {
         </button>
         <button
           type="button"
-          class="px-5 py-2.5 text-sm font-medium rounded-xl transition-all duration-200"
+          class="px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200"
           :class="activeTab === 'favorites'
-            ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-md'
+            ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/25'
             : 'text-text-secondary hover:text-text-primary hover:bg-gray-100'"
           @click="activeTab = 'favorites'"
         >
@@ -115,10 +116,74 @@ watch(activeTab, async (tab) => {
         </button>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <!-- Main Content -->
-        <div class="col-span-1" :class="[activeTab === 'favorites' ? 'lg:col-span-4' : '']">
-          <!-- Search & Filter -->
+      <!-- Main Layout -->
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Left Sidebar - Stats & Filters -->
+        <aside class="w-full lg:w-72 flex-shrink-0 space-y-6">
+          <!-- Stats Card -->
+          <div class="bg-white rounded-2xl border border-border-light p-6 shadow-sm">
+            <h3 class="text-sm font-semibold text-text-primary mb-5 flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                  <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                </svg>
+              </div>
+              统计信息
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                <span class="text-sm text-text-secondary">总记录数</span>
+                <span class="text-sm font-bold text-text-primary">{{ historyStore.totalCount }}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-yellow-50/50">
+                <span class="text-sm text-text-secondary">收藏数量</span>
+                <span class="text-sm font-bold text-yellow-600">{{ historyStore.favorites.length }}</span>
+              </div>
+            </div>
+
+            <div class="h-px bg-border-light my-5" />
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-purple-500" />
+                  <span class="text-sm text-text-secondary">语音记录</span>
+                </div>
+                <span class="text-sm font-semibold text-purple-600">{{ historyStore.items.filter(i => i.type === 'voice').length }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span class="text-sm text-text-secondary">图片记录</span>
+                </div>
+                <span class="text-sm font-semibold text-emerald-600">{{ historyStore.items.filter(i => i.type === 'image').length }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-red-500" />
+                  <span class="text-sm text-text-secondary">视频记录</span>
+                </div>
+                <span class="text-sm font-semibold text-red-600">{{ historyStore.items.filter(i => i.type === 'video').length }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-amber-500" />
+                  <span class="text-sm text-text-secondary">音乐记录</span>
+                </div>
+                <span class="text-sm font-semibold text-amber-600">{{ historyStore.items.filter(i => i.type === 'music').length }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-blue-500" />
+                  <span class="text-sm text-text-secondary">对话记录</span>
+                </div>
+                <span class="text-sm font-semibold text-blue-600">{{ historyStore.items.filter(i => i.type === 'chat').length }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search & Filter - only on history tab -->
           <SearchFilter
             v-if="activeTab === 'history'"
             :filter="historyStore.filter"
@@ -126,7 +191,10 @@ watch(activeTab, async (tab) => {
             @search="handleSearch"
             @filter-change="handleFilterChange"
           />
+        </aside>
 
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0">
           <!-- History List -->
           <HistoryList
             v-if="activeTab === 'history'"
@@ -147,51 +215,7 @@ watch(activeTab, async (tab) => {
             @toggle-favorite="handleToggleFavorite"
             @view-detail="handleViewDetail"
           />
-        </div>
-
-        <!-- Sidebar - Stats (only on history tab) -->
-        <div v-if="activeTab === 'history'" class="col-span-1">
-          <div class="bg-white rounded-2xl border border-border-light p-5 sticky top-6 shadow-sm">
-            <h3 class="text-sm font-semibold text-text-primary mb-4 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                <path d="M22 12A10 10 0 0 0 12 2v10z" />
-              </svg>
-              统计信息
-            </h3>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">总记录数</span>
-                <span class="text-sm font-semibold text-text-primary">{{ historyStore.totalCount }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">收藏数量</span>
-                <span class="text-sm font-semibold text-yellow-500">{{ historyStore.favorites.length }}</span>
-              </div>
-              <div class="h-px bg-border-light my-3" />
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">语音记录</span>
-                <span class="text-sm font-semibold text-purple-600">{{ historyStore.items.filter(i => i.type === 'voice').length }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">图片记录</span>
-                <span class="text-sm font-semibold text-emerald-600">{{ historyStore.items.filter(i => i.type === 'image').length }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">视频记录</span>
-                <span class="text-sm font-semibold text-red-600">{{ historyStore.items.filter(i => i.type === 'video').length }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">音乐记录</span>
-                <span class="text-sm font-semibold text-yellow-600">{{ historyStore.items.filter(i => i.type === 'music').length }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-text-secondary">对话记录</span>
-                <span class="text-sm font-semibold text-blue-600">{{ historyStore.items.filter(i => i.type === 'chat').length }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </main>
       </div>
     </div>
 
@@ -212,8 +236,12 @@ watch(activeTab, async (tab) => {
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-text-primary">确认删除</h3>
-              <p class="text-sm text-text-muted">此操作无法撤销</p>
+              <h3 class="text-lg font-semibold text-text-primary">
+                确认删除
+              </h3>
+              <p class="text-sm text-text-muted">
+                此操作无法撤销
+              </p>
             </div>
           </div>
           <p class="text-sm text-text-secondary mb-6">
@@ -222,14 +250,14 @@ watch(activeTab, async (tab) => {
           <div class="flex justify-end gap-3">
             <button
               type="button"
-              class="px-4 py-2.5 text-sm font-medium text-text-secondary bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200"
+              class="px-5 py-2.5 text-sm font-semibold text-text-secondary bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200"
               @click="cancelDelete"
             >
               取消
             </button>
             <button
               type="button"
-              class="px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-red-500 to-red-600 hover:shadow-lg hover:shadow-red-500/25 rounded-xl transition-all duration-200"
+              class="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-red-500 to-red-600 hover:shadow-lg hover:shadow-red-500/25 rounded-xl transition-all duration-200"
               @click="confirmDelete"
             >
               删除
