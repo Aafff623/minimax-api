@@ -1,6 +1,6 @@
-import { onUnmounted, readonly, ref } from 'vue'
 import type { Ref } from 'vue'
 import type { ChatMessage } from '~/types'
+import { onUnmounted, readonly, ref } from 'vue'
 import { sendMessageStream } from '~/api/chat'
 
 export interface UseChatStreamOptions {

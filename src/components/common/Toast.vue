@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 interface Props {
   type?: 'success' | 'error' | 'warning' | 'info'
@@ -48,13 +48,11 @@ const typeIcons: Record<string, string> = {
     >
       <div
         v-if="visible"
-        :class="[
-          'fixed top-4 left-1/2 -translate-x-1/2 z-50',
-          'flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-white',
+        class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-white" :class="[
           typeClasses[type!],
         ]"
       >
-        <span :class="[typeIcons[type!], 'text-lg']" />
+        <span class="text-lg" :class="[typeIcons[type!]]" />
         <span>{{ message }}</span>
       </div>
     </Transition>

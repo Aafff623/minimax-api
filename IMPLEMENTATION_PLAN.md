@@ -184,7 +184,7 @@ interface ImageRequest {
   prompt: string
   image_size?: '1:1' | '16:9' | '9:16' | '3:4' | '4:3'
   image_ratio?: string
-  num_images?: number  // 1-3
+  num_images?: number // 1-3
 }
 ```
 

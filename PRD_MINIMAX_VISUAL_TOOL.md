@@ -933,33 +933,33 @@ Wide:     > 1440px   (三栏布局，更宽配置面板)
 ```typescript
 // services/api/minimax.ts
 interface MiniMaxConfig {
-  apiKey: string;
-  baseURL: string;
+  apiKey: string
+  baseURL: string
 }
 
 // 语音合成服务
 class SpeechService {
-  constructor(config: MiniMaxConfig);
-  async createAsyncTask(params: SpeechAsyncParams): Promise<TaskResponse>;
-  async pollTaskStatus(taskId: string): Promise<TaskStatus>;
-  createWebSocket(params: SpeechStreamParams): WebSocket;
+  constructor(config: MiniMaxConfig)
+  async createAsyncTask(params: SpeechAsyncParams): Promise<TaskResponse>
+  async pollTaskStatus(taskId: string): Promise<TaskStatus>
+  createWebSocket(params: SpeechStreamParams): WebSocket
 }
 
 // 视频生成服务
 class VideoService {
-  constructor(config: MiniMaxConfig);
-  async generateT2V(params: T2VParams): Promise<TaskResponse>;
-  async generateI2V(params: I2VParams): Promise<TaskResponse>;
-  async generateS2V(params: S2VParams): Promise<TaskResponse>;
-  async pollTaskStatus(taskId: string): Promise<TaskStatus>;
+  constructor(config: MiniMaxConfig)
+  async generateT2V(params: T2VParams): Promise<TaskResponse>
+  async generateI2V(params: I2VParams): Promise<TaskResponse>
+  async generateS2V(params: S2VParams): Promise<TaskResponse>
+  async pollTaskStatus(taskId: string): Promise<TaskStatus>
 }
 
 // 音乐生成服务
 class MusicService {
-  constructor(config: MiniMaxConfig);
-  async generateLyrics(params: LyricsParams): Promise<LyricsResponse>;
-  async generateMusic(params: MusicParams): Promise<TaskResponse>;
-  async pollTaskStatus(taskId: string): Promise<TaskStatus>;
+  constructor(config: MiniMaxConfig)
+  async generateLyrics(params: LyricsParams): Promise<LyricsResponse>
+  async generateMusic(params: MusicParams): Promise<TaskResponse>
+  async pollTaskStatus(taskId: string): Promise<TaskStatus>
 }
 ```
 
@@ -968,18 +968,18 @@ class MusicService {
 ```typescript
 // stores/taskStore.ts
 interface TaskState {
-  tasks: Task[];
-  addTask(task: Task): void;
-  updateTask(id: string, updates: Partial<Task>): void;
-  removeTask(id: string): void;
+  tasks: Task[]
+  addTask: (task: Task) => void
+  updateTask: (id: string, updates: Partial<Task>) => void
+  removeTask: (id: string) => void
 }
 
 // stores/configStore.ts
 interface ConfigState {
-  apiKey: string;
-  theme: 'light' | 'dark';
-  defaultModel: string;
-  updateConfig(updates: Partial<ConfigState>): void;
+  apiKey: string
+  theme: 'light' | 'dark'
+  defaultModel: string
+  updateConfig: (updates: Partial<ConfigState>) => void
 }
 ```
 

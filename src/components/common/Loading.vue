@@ -24,7 +24,7 @@ const colorClasses: Record<string, string> = {
 <template>
   <div class="flex items-center justify-center">
     <svg
-      :class="[sizeClasses[size!], colorClasses[color!], 'animate-spin']"
+      class="animate-spin" :class="[sizeClasses[size!], colorClasses[color!]]"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
