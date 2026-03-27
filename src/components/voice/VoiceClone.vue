@@ -23,6 +23,10 @@ async function fetchCloneList() {
   }
 }
 
+function triggerUpload() {
+  document.getElementById('audio-upload')?.click()
+}
+
 function handleFileChange(event: Event) {
   const target = event.target as HTMLInputElement
   if (target.files && target.files[0]) {
@@ -156,7 +160,7 @@ function getStatusTag(status: string) {
         :class="[
           audioFile ? 'border-primary bg-primary/5' : 'border-border-light hover:border-primary/50 hover:bg-hover-overlay',
         ]"
-        @click="() => document.getElementById('audio-upload')?.click()"
+        @click="triggerUpload"
       >
         <input
           id="audio-upload"
