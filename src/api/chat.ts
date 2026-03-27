@@ -110,14 +110,20 @@ export async function sendMessageStream(
     stream: true,
   }
 
-  const response = await fetch(`${API_BASE}/v1/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(params),
-    signal,
-  })
+  let response: Response
+  try {
+    response = await fetch(`${API_BASE}/v1/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+      signal,
+    })
+  }
+  catch (e) {
+    throw new Error(e instanceof Error ? e.message : 'Network error occurred')
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({

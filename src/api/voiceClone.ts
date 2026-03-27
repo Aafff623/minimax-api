@@ -1,7 +1,7 @@
 // Voice Clone API
 import type { ApiResponse, TaskStatus } from '@/types'
 
-const API_BASE = '/api/voice_clone'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
 
 export interface VoiceCloneCreateResponse {
   task_id: string
@@ -19,7 +19,7 @@ export async function createVoiceClone(audioFile: File): Promise<ApiResponse<Voi
   const formData = new FormData()
   formData.append('audio', audioFile)
 
-  const response = await fetch(API_BASE, {
+  const response = await fetch(`${API_BASE}/v1/voice_clone`, {
     method: 'POST',
     body: formData,
   })
@@ -44,7 +44,7 @@ export async function createVoiceClone(audioFile: File): Promise<ApiResponse<Voi
 
 // GET /v1/voice_clone?task_id=xxx - 查询克隆状态
 export async function getCloneStatus(taskId: string): Promise<ApiResponse<VoiceCloneStatusResponse>> {
-  const response = await fetch(`${API_BASE}?task_id=${encodeURIComponent(taskId)}`)
+  const response = await fetch(`${API_BASE}/v1/voice_clone?task_id=${encodeURIComponent(taskId)}`)
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ message: 'Query failed' }))
@@ -66,7 +66,7 @@ export async function getCloneStatus(taskId: string): Promise<ApiResponse<VoiceC
 
 // GET /v1/voice_clone - 获取克隆音色列表
 export async function getCloneList(): Promise<ApiResponse<VoiceCloneStatusResponse[]>> {
-  const response = await fetch(API_BASE)
+  const response = await fetch(`${API_BASE}/v1/voice_clone`)
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ message: 'List fetch failed' }))
