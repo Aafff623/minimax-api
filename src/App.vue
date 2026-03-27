@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
-import { useAppStore } from '~/stores/app'
-import { useBGMusic } from '~/composables/useBGMusic'
-import AppBackground from '~/components/common/AppBackground.vue'
-import WelcomeVideo from '~/components/common/WelcomeVideo.vue'
 import AIAgent from '~/components/common/AIAgent.vue'
+import ApiKeyDialog from '~/components/common/ApiKeyDialog.vue'
+import AppBackground from '~/components/common/AppBackground.vue'
 import BGMusicPanel from '~/components/common/BGMusicPanel.vue'
 import Decorations from '~/components/common/Decorations.vue'
+import WelcomeVideo from '~/components/common/WelcomeVideo.vue'
+import { useBGMusic } from '~/composables/useBGMusic'
+import { useApiKeyStore } from '~/stores/apikey'
+import { useAppStore } from '~/stores/app'
 
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 const appStore = useAppStore()
+const apiKeyStore = useApiKeyStore()
+const isApiKeyDialogOpen = ref(false)
 
 // Initialize BGM
 const bgm = useBGMusic()
@@ -141,16 +145,19 @@ onMounted(() => {
           </div>
 
           <!-- CTA Button -->
-          <a
-            href="#"
+          <button
             class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:shadow-lg hover:scale-105"
-            style="background: linear-gradient(135deg, #10B981 0%, #34D399 100%);"
+            :class="apiKeyStore.isConfigured ? 'bg-emerald-500' : ''"
+            :style="!apiKeyStore.isConfigured
+              ? 'background: linear-gradient(135deg, #10B981 0%, #34D399 100%);'
+              : ''"
+            @click="isApiKeyDialogOpen = true"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            API Key
-          </a>
+            {{ apiKeyStore.isConfigured ? 'API Key ✓' : 'API Key' }}
+          </button>
         </div>
       </nav>
     </header>
@@ -255,5 +262,8 @@ onMounted(() => {
 
     <!-- BGM Control Panel (z-index: 50) -->
     <BGMusicPanel />
+
+    <!-- API Key Configuration Dialog -->
+    <ApiKeyDialog v-model="isApiKeyDialogOpen" />
   </div>
 </template>

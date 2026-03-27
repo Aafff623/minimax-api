@@ -2,9 +2,12 @@
 interface Props {
   modelValue: boolean
   title?: string
+  width?: string
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  width: 'max-w-md',
+})
 defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
 </script>
 
@@ -27,27 +30,30 @@ defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
         />
 
         <!-- Dialog -->
-        <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div
+          class="relative bg-white rounded-xl shadow-xl mx-4 transition-all"
+          :class="width"
+        >
           <!-- Header -->
-          <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
             <h3 class="text-lg font-semibold text-gray-900">
               {{ title || 'Dialog' }}
             </h3>
             <button
-              class="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+              class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
               @click="$emit('update:modelValue', false)"
             >
-              <span class="i-icon-park-outline-close text-xl" />
+              <span class="i-icon-park-outline-close text-lg" />
             </button>
           </div>
 
           <!-- Body -->
-          <div class="px-4 py-4">
+          <div class="px-6 py-5">
             <slot />
           </div>
 
           <!-- Footer -->
-          <div v-if="$slots.footer" class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+          <div v-if="$slots.footer" class="px-6 py-4 border-t border-gray-100 bg-gray-50">
             <slot name="footer" />
           </div>
         </div>
