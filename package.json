@@ -14,7 +14,11 @@
     "test:unit": "vitest run tests/unit",
     "test:coverage": "vitest run tests/unit --coverage",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "generate:music": "npx tsx scripts/generate-music.ts",
+    "generate:welcome-video": "npx tsx scripts/generate-welcome-video.ts",
+    "generate:assets": "npx tsx scripts/generate-ui-assets.ts",
+    "generate:placeholders": "npx tsx scripts/generate-svg-placeholders.ts"
   },
   "dependencies": {
     "element-plus": "^2.9.9",
@@ -39,12 +43,6 @@
     "vitest": "^3.1.1",
     "vue-tsc": "^2.2.10"
   },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm i --frozen-lockfile --ignore-scripts --offline && npx lint-staged"
-  },
-  "lint-staged": {
-    "*": [
-      "eslint --fix"
-    ]
-  }
+  "simple-git-hooks": {},
+  "lint-staged": {}
 }

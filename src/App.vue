@@ -1,9 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { useAppStore } from '~/stores/app'
+import { useBGMusic } from '~/composables/useBGMusic'
+import AppBackground from '~/components/common/AppBackground.vue'
+import WelcomeVideo from '~/components/common/WelcomeVideo.vue'
+import AIAgent from '~/components/common/AIAgent.vue'
+import BGMusicPanel from '~/components/common/BGMusicPanel.vue'
+import Decorations from '~/components/common/Decorations.vue'
 
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
+const appStore = useAppStore()
+
+// Initialize BGM
+const bgm = useBGMusic()
 
 const navItems = [
   { path: '/', name: 'Home', icon: 'home' },
@@ -20,11 +31,29 @@ const isActive = (path: string) => route.path === path
 function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
+
+function handleWelcomeDismiss() {
+  appStore.setHasSeenWelcomeVideo()
+}
+
+// Auto-play BGM when enabled
+onMounted(() => {
+  if (appStore.bgmEnabled) {
+    bgm.play()
+  }
+})
 </script>
 
 <template>
-  <div class="min-h-screen" style="background-color: #F5F3FF; font-family: 'Plus Jakarta Sans', sans-serif;">
-    <!-- Desktop Navigation -->
+  <div class="min-h-screen relative" style="background-color: #F5F3FF; font-family: 'Plus Jakarta Sans', sans-serif;">
+    <!-- Background Layer (z-index: 0) -->
+    <AppBackground />
+    <Decorations />
+
+    <!-- Welcome Video Overlay (z-index: 100) -->
+    <WelcomeVideo v-if="!appStore.hasSeenWelcomeVideo" @complete="handleWelcomeDismiss" />
+
+    <!-- Desktop Navigation (z-index: 50) -->
     <header class="hidden md:block bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
       <nav class="container mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
@@ -217,8 +246,14 @@ function toggleMobileMenu() {
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 relative z-10">
       <RouterView />
     </main>
+
+    <!-- AI Assistant (z-index: 50) -->
+    <AIAgent />
+
+    <!-- BGM Control Panel (z-index: 50) -->
+    <BGMusicPanel />
   </div>
 </template>
