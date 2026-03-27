@@ -1,0 +1,28 @@
+# Welcome Video Placeholder
+
+This is a placeholder for the welcome video.
+
+To generate the actual video:
+
+1. Set up your API key:
+   API_KEY=your_key pnpm generate-welcome-video
+
+2. Or manually:
+   - Upload an image to a public URL
+   - Call the MiniMax Video API with:
+     - model: MiniMax-Hailuo-02
+     - last_frame_image: your_image_url
+     - prompt: "Logo animation, smooth fade-in, particles floating, futuristic tech feel, professional brand intro, cinematic lighting, [推进] camera movement"
+     - duration: 10
+     - resolution: 768P
+
+3. Download the generated video to:
+   D:\OneDrive\Desktop\project\minimax-api\public\videos\welcome.mp4
+
+Generation Parameters:
+{
+  "model": "MiniMax-Hailuo-02",
+  "prompt": "Logo animation, smooth fade-in, particles floating, futuristic tech feel, professional brand intro, cinematic lighting, [推进] camera movement",
+  "duration": 10,
+  "resolution": "768P"
+}
